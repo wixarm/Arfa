@@ -1,4 +1,3 @@
-// jsx.d.ts
 import { VNode } from "./runtime/renderer";
 
 declare global {
