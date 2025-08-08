@@ -1,9 +1,18 @@
-declare namespace JSX {
-  interface IntrinsicElements {
-    [elemName: string]: any;
+// jsx.d.ts
+import { VNode } from "./runtime/renderer";
+
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      [elemName: string]: any;
+    }
   }
 
-  interface Element {}
-  interface ElementClass {}
-  interface ElementAttributesProperty {}
+  function h(
+    type: string | Function,
+    props: Record<string, any> | null,
+    ...children: any[]
+  ): VNode;
+
+  function Fragment(props: { children?: any }): any;
 }

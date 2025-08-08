@@ -1,5 +1,3 @@
-import { h } from "../runtime/jsx";
-
 export const WellcomeApp = () => {
-  return <div>Wellcome to App</div>;
+  return <h2>Wellcome to App</h2>;
 };
