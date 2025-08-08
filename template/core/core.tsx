@@ -1,6 +1,6 @@
 import { h } from "./runtime/jsx";
-import App from "./App";
 import { render } from "./runtime/renderer";
+import Root from "./Root";
 
-const tree = <App />;
+const tree = <Root />;
 render(tree, document.getElementById("root")!);

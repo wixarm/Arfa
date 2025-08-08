@@ -37,18 +37,20 @@ function createDomElement(vnode: Child): Node {
 
     const domElement = document.createElement(vnode.type as string);
 
-    const { children, ...props } = vnode.props || {};
-    Object.keys(props).forEach((name) => {
-      const value = props[name];
-      if (name.startsWith("on") && typeof value === "function") {
-        const event = name.slice(2).toLowerCase();
-        domElement.addEventListener(event, value);
-      } else if (name === "className") {
-        domElement.setAttribute("class", value);
-      } else {
-        domElement.setAttribute(name, value);
-      }
-    });
+    const { children, ...props } = vnode.props ?? {};
+    if (props && typeof props === "object") {
+      Object.keys(props).forEach((name) => {
+        const value = props[name];
+        if (name.startsWith("on") && typeof value === "function") {
+          const event = name.slice(2).toLowerCase();
+          domElement.addEventListener(event, value);
+        } else if (name === "className") {
+          domElement.setAttribute("class", value);
+        } else {
+          domElement.setAttribute(name, value);
+        }
+      });
+    }
 
     renderChildren(children, domElement);
     return domElement;
