@@ -1,3 +1,4 @@
 export default function App() {
-  return <div className="app">saw</div>;
+  const a = 1;
+  return <h1>Welcome to Arfa App {a}</h1>;
 }
