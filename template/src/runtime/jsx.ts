@@ -14,6 +14,6 @@ export function h(
   return { type, props };
 }
 
-export function Fragment(props: { children: any }) {
+export function Fragment(props: { children?: any }) {
   return props.children;
 }
