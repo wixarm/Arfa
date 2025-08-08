@@ -12,7 +12,3 @@ export function h(
 export function Fragment(props: { children?: any }) {
   return props.children;
 }
-
-export const arfa = () => {
-  return { h, Fragment };
-};
