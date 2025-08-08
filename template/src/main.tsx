@@ -1,5 +1,6 @@
-import { render } from "preact";
+import { h } from "./runtime/jsx";
 import App from "./App";
+import { render } from "./runtime/renderer";
 
-const root = document.getElementById("root")!;
-render(<App />, root);
+const tree = <App />;
+render(tree, document.getElementById("root")!);

@@ -1,4 +1,13 @@
+import { h, Fragment } from "./runtime/jsx";
+import "./styles.css";
+
 export default function App() {
-  const a = 1;
-  return <h1>Welcome to Arfa App {a}</h1>;
+  return (
+    <>
+      <h1 class="test" onClick={() => alert("test")}>
+        Welcome to Arfa App
+      </h1>
+      <div>test</div>
+    </>
+  );
 }
