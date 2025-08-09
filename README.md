@@ -6,6 +6,10 @@ A modern TSX-based framework for building web applications
 
 Arfa.js is a lightweight framework that compiles TSX to optimized JavaScript, powered by Vite and the Arfa runtime engine. Created by Arman Tarhani, it provides a component-based architecture with reactive updates.
 
+## Contact
+
+For any inquiries, please contact: armanentarhani1997@gmail.com
+
 ## ✨ Features
 
 - **Blazing Fast** - Vite-powered development and builds
