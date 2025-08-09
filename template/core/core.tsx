@@ -1,4 +1,3 @@
-// core/Core.tsx
 import { h as _h, Fragment as _Fragment } from "./runtime/jsx";
 import { render } from "./runtime/renderer";
 import { initRouter } from "./runtime/router";
