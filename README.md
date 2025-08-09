@@ -8,7 +8,7 @@ Arfa.js is a lightweight framework that compiles TSX to optimized JavaScript, po
 
 ## Contact
 
-For any inquiries, please contact: armanentarhani1997@gmail.com
+For any inquiries, please contact: armantarhani1997@gmail.com
 
 ## ✨ Features
 
