@@ -44,7 +44,7 @@ function createDomElement(vnode: Child): Node {
         if (name.startsWith("on") && typeof value === "function") {
           const event = name.slice(2).toLowerCase();
           domElement.addEventListener(event, value);
-        } else if (name === "cl") {
+        } else if (name === "class" || name === "className") {
           domElement.setAttribute("class", value);
         } else {
           domElement.setAttribute(name, value);

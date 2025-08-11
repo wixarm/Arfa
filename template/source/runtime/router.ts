@@ -13,6 +13,7 @@ type RouteRecord = {
 let routes: RouteRecord[] = [];
 let layoutsByDir: Record<string, PageComponent> = {};
 let appWrapper: PageComponent | null = null;
+let notFoundPage: PageComponent | null = null;
 
 const NotFound: PageComponent = () => ({
   type: "div",
@@ -73,6 +74,7 @@ function filePathToRouteInfo(
 function buildRoutesAndLayouts(routeModules: Record<string, any>) {
   layoutsByDir = {};
   appWrapper = null;
+  notFoundPage = null;
 
   const records: RouteRecord[] = [];
 
@@ -80,6 +82,11 @@ function buildRoutesAndLayouts(routeModules: Record<string, any>) {
     const normalized = filePath
       .replace(/^\.\/pages/, "")
       .replace(/\.(t|j)sx?$/, "");
+
+    if (normalized === "/404") {
+      notFoundPage = mod.default;
+      continue;
+    }
 
     if (normalized.endsWith("/_layout")) {
       const dir = normalized.replace(/\/_layout$/, "") || "/";
@@ -167,17 +174,13 @@ export function initRouter(
   renderFn: (comp: PageComponent) => void
 ) {
   buildRoutesAndLayouts(routeModules);
-
   navigateTo(location.href, renderFn, false);
-
   window.addEventListener("popstate", () =>
     navigateTo(location.href, renderFn, false)
   );
-
   document.addEventListener("click", (e) => {
-    const el =
-      (e.target as HTMLElement).closest &&
-      (e.target as HTMLElement).closest("a");
+    const target = e.target as HTMLElement;
+    const el = target && target.closest ? target.closest("a") : null;
     if (!el) return;
     const href = (el as HTMLAnchorElement).getAttribute("href");
     if (!href) return;
@@ -201,16 +204,31 @@ export function navigateTo(
   if (push) history.pushState({}, "", pathname + url.search + url.hash);
 
   if (!record) {
-    renderFn(NotFound);
+    const PageComp = notFoundPage ?? NotFound;
+    const pageVNode = PageComp({ params: {} });
+    const layouts = getLayoutsForPath("/404");
+    let composed = pageVNode;
+    for (let i = layouts.length - 1; i >= 0; i--) {
+      const Layout = layouts[i];
+      composed = Layout({ children: composed, params: {} });
+    }
+    if (appWrapper) {
+      const finalVNode = appWrapper({
+        Component: () => composed,
+        pageProps: { params: {} },
+      });
+      const Wrapper: PageComponent = () => finalVNode;
+      renderFn(Wrapper);
+    } else {
+      const Wrapper: PageComponent = () => composed;
+      renderFn(Wrapper);
+    }
     return;
   }
 
   const Page = record.component;
-
   const pageVNode = Page({ params });
-
   const layouts = getLayoutsForPath(pathname);
-
   let composed = pageVNode;
   for (let i = layouts.length - 1; i >= 0; i--) {
     const Layout = layouts[i];
@@ -218,8 +236,10 @@ export function navigateTo(
   }
 
   if (appWrapper) {
-    const Component = (_: any) => composed;
-    const finalVNode = appWrapper({ Component, pageProps: { params } });
+    const finalVNode = appWrapper({
+      Component: () => composed,
+      pageProps: { params },
+    });
     const Wrapper: PageComponent = () => finalVNode;
     renderFn(Wrapper);
   } else {
