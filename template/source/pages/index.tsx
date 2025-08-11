@@ -49,6 +49,7 @@ export default function Home() {
 
       <div class="relative z-10 mt-12 text-center text-gray-500 text-sm">
         <p>Built for the future. Powered by reactivity.</p>
+        <p>Arman tarhani</p>
       </div>
     </div>
   );
