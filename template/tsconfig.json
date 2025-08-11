@@ -19,5 +19,5 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["core", "jsx.d.ts"]
+  "include": ["source", "jsx.d.ts"]
 }
