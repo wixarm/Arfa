@@ -26,3 +26,47 @@ cd my-app
 npm install
 npm run dev
 ```
+
+## 📁 File-based Routing
+
+Arfa.js uses a file-system based router where routes are defined by files in the pages directory. very similar with next js!
+
+```bash
+pages/
+  index.tsx        → /
+  about.tsx        → /about
+  contact.tsx      → /contact
+```
+
+Nested Routes:
+
+```bash
+pages/
+  blog/
+    index.tsx      → /blog
+    [slug].tsx     → /blog/:slug
+    latest.tsx     → /blog/latest
+```
+
+Dynamic Routes:
+
+```bash
+pages/
+  users/
+    [id].tsx       → /users/:id
+  posts/
+    [category]/
+      [id].tsx    → /posts/:category/:id
+```
+
+Layout System: Create layouts by adding \_layout.tsx files:
+
+```bash
+pages/
+  _layout.tsx      ← Applies to all routes
+  about.tsx
+  blog/
+    _layout.tsx    ← Applies to /blog/*
+    index.tsx
+    [slug].tsx
+```
