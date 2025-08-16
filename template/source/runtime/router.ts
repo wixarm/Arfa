@@ -209,11 +209,11 @@ async function runLayoutGuardsForPath(
     try {
       const res = await Promise.resolve(guard(params, pathname));
       if (!Boolean(res)) {
-        const redirect = layoutGuardRedirectByDir[d] ?? "/login";
+        const redirect = layoutGuardRedirectByDir[d] ?? "/";
         return { ok: false, redirect };
       }
     } catch {
-      const redirect = layoutGuardRedirectByDir[d] ?? "/login";
+      const redirect = layoutGuardRedirectByDir[d] ?? "/";
       return { ok: false, redirect };
     }
   }
@@ -262,7 +262,7 @@ export async function navigateTo(
   }
   const guardResult = await runLayoutGuardsForPath(pathname, params);
   if (!guardResult.ok) {
-    const target = guardResult.redirect ?? "/login";
+    const target = guardResult.redirect ?? "/";
     if (target === pathname) {
       const PageComp = notFoundPage ?? NotFound;
       renderVNodeWithLayoutsAndApp(PageComp, "/404", {}, renderFn);
