@@ -13,6 +13,7 @@ For any inquiries, please contact: armantarhani1997@gmail.com
 ## ✨ Features
 
 - **Blazing Fast** - Vite-powered development and builds
+- **Tailwind** - Use tailwindcss by default
 - **TSX/JSX Support** - Write components with TypeScript syntax
 - **Arfa Runtime** - Custom optimized rendering engine
 - **Zero Config** - Sensible defaults with easy customization
