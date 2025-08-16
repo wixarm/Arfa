@@ -4,11 +4,7 @@ A modern TSX-based framework for building web applications
 
 ## Overview
 
-Arfa.js is a lightweight framework that compiles TSX to optimized JavaScript, powered by Vite and the Arfa runtime engine. Created by Arman Tarhani, it provides a component-based architecture with reactive updates.
-
-## Contact
-
-For any inquiries, please contact: armantarhani1997@gmail.com
+Arfa.js is a lightweight framework that compiles TSX to optimized JavaScript, powered by Vite and the Arfa runtime engine. Created by Arman Tarhani, it provides a component-based architecture with reactive updates. Using Arfa is very simple. Imagine the component structure being very similar to React and the routing being similar to Next!
 
 ## ✨ Features
 
@@ -27,6 +23,10 @@ cd my-app
 npm install
 npm run dev
 ```
+
+## Contact
+
+For any inquiries, please contact: armantarhani1997@gmail.com
 
 ## 📁 File-based Routing
 
@@ -72,7 +72,7 @@ pages/
     [slug].tsx
 ```
 
-## ✨ Protected Route
+## Protected Route
 
 How it works (brief)
 
