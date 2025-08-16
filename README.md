@@ -80,7 +80,7 @@ Router builds a list of layouts (from files named \_layout.tsx) mapped to direct
 
 When navigating, the router collects directory list for the destination (e.g. /admin/settings → ["/", "/admin", "/admin/settings"]) and calls each layout's protect in that order.
 
-If any protect returns false (or resolves to false) the router redirects to that layout's protectRedirect (or /login).
+If any protect returns false (or resolves to false) the router redirects to that layout's protectRedirect (or /).
 
 If all guards pass, the page is rendered wrapped in layouts and optional \_app.
 
