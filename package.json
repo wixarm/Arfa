@@ -1,6 +1,6 @@
 {
   "name": "create-arfa",
-  "version": "2.0.10",
+  "version": "2.0.11",
   "bin": {
     "create-arfa": "./index.js"
   },
