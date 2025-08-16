@@ -71,3 +71,66 @@ pages/
     index.tsx
     [slug].tsx
 ```
+
+## ✨ Protected Route
+
+How it works (brief)
+
+Router builds a list of layouts (from files named \_layout.tsx) mapped to directory paths (e.g. core/pages/admin/\_layout.tsx → "/admin").
+
+When navigating, the router collects directory list for the destination (e.g. /admin/settings → ["/", "/admin", "/admin/settings"]) and calls each layout's protect in that order.
+
+If any protect returns false (or resolves to false) the router redirects to that layout's protectRedirect (or /login).
+
+If all guards pass, the page is rendered wrapped in layouts and optional \_app.
+
+```bash
+export function protect(params?: any, pathname?: string): boolean | Promise<boolean> { ... }
+
+// or as a property exported from default (both are supported by router)
+export default function MyLayout(...) { ... }
+export const protect = () => true;
+export const protectRedirect = "/login";
+```
+
+Example:
+
+```bash
+export function protect() {
+  return !!localStorage.getItem("token");
+}
+
+export const protectRedirect = "/login";
+
+export default function AdminLayout({ children }: any) {
+  return (
+    <div class="admin-shell">
+      <aside>Admin menu</aside>
+      <main>{children}</main>
+    </div>
+  );
+}
+
+```
+
+Async guard (e.g. validate token by calling an API):
+
+```bash
+//core/pages/dashboard/_layout.tsx
+export async function protect() {
+  const token = localStorage.getItem("token");
+  if (!token) return false;
+  // fake async check
+  const ok = await fetch("/api/validate", { headers: { Authorization: `Bearer ${token}` } })
+    .then(r => r.ok)
+    .catch(() => false);
+  return ok;
+}
+
+export const protectRedirect = "/login";
+
+export default function DashboardLayout({ children }: any) {
+  return <div class="dashboard">{children}</div>;
+}
+
+```
