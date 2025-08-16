@@ -1,28 +1,37 @@
 # Arfa.js
 
-A modern TSX-based framework for building web applications
+A modern **TSX-based framework** for building fast, component-driven web applications.
 
-## Overview
+---
 
-Arfa.js is a lightweight framework that compiles TSX to optimized JavaScript, powered by Vite and the Arfa runtime engine. Created by Arman Tarhani, it provides a component-based architecture with reactive updates. Using Arfa is very simple. Imagine the component structure being very similar to React and the routing being similar to Next!
+## 📖 Overview
+
+Arfa.js is a lightweight framework that compiles **TSX** into optimized JavaScript, powered by **Vite** and the custom **Arfa runtime engine**.  
+It offers a **React-like component model** and a **Next.js-style file-based router**, making it both familiar and easy to adopt.
+
+Created by **Arman Tarhani**, Arfa.js aims to provide **simplicity, speed, and flexibility** out of the box.
+
+---
 
 ## ✨ Features
 
-- **Blazing Fast** - Vite-powered development and builds
-- **Tailwind** - Use tailwindcss by default
-- **TSX/JSX Support** - Write components with TypeScript syntax
-- **Arfa Runtime** - Custom optimized rendering engine
-- **Zero Config** - Sensible defaults with easy customization
-- **TypeScript Native** - First-class TypeScript support
+- ⚡ **Blazing Fast** — Vite-powered dev server and builds
+- 🎨 **TailwindCSS Ready** — Use Tailwind by default with zero setup
+- 🧩 **TSX/JSX Support** — Write strongly-typed UI components
+- ⚙️ **Custom Runtime** — Lightweight, optimized rendering engine
+- 🚫 **Zero Config** — Sensible defaults with easy overrides
+- 📘 **TypeScript Native** — First-class TypeScript support
+
+---
 
 ## 🚀 Quick Start
 
-```bash
+````bash
 npx create-arfa my-app
 cd my-app
 npm install
 npm run dev
-```
+
 
 ## Contact
 
@@ -37,7 +46,7 @@ pages/
   index.tsx        → /
   about.tsx        → /about
   contact.tsx      → /contact
-```
+````
 
 Nested Routes:
 
