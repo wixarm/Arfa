@@ -26,12 +26,12 @@ Created by **Arman Tarhani**, Arfa.js aims to provide **simplicity, speed, and f
 
 ## 🚀 Quick Start
 
-````bash
+```bash
 npx create-arfa my-app
 cd my-app
 npm install
 npm run dev
-
+```
 
 ## Contact
 
@@ -46,7 +46,7 @@ pages/
   index.tsx        → /
   about.tsx        → /about
   contact.tsx      → /contact
-````
+```
 
 Nested Routes:
 
