@@ -8,5 +8,12 @@
     "chalk": "^4.1.2",
     "fs-extra": "^11.1.1",
     "prompts": "^2.4.2"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wixarm/Arfa.git"
+  },
+  "homepage": "https://github.com/wixarm/Arfa.git",
+  "author": "Arman tarhani doreh",
+  "description": "A modern TSX-based framework for building fast, component-driven web applications."
 }
