@@ -14,5 +14,9 @@
   "dependencies": {
     "@tailwindcss/vite": "^4.1.11",
     "tailwindcss": "^4.1.11"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wixarm/Arfa.git"
   }
 }
