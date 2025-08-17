@@ -12,8 +12,6 @@ export function protect() {
 
 /**
  * Redirect path for unauthorized access.
- * @constant
- * @type {string}
  * @description
  * Users who fail the protect() check will be redirected to this path.
  * Modify this to match your application's authentication flow.
