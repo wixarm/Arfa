@@ -15,5 +15,13 @@
   },
   "homepage": "https://github.com/wixarm/Arfa.git",
   "author": "Arman tarhani doreh",
-  "description": "A modern TSX-based framework for building fast, component-driven web applications."
+  "description": "A modern TSX-based framework for building fast, component-driven web applications.",
+  "keywords": [
+    "arfa",
+    "arfajs",
+    "arman tarhani",
+    "react js",
+    "react alternative",
+    "arfa js"
+  ]
 }
