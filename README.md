@@ -28,6 +28,7 @@ Created by **Arman Tarhani**, Arfa.js aims to provide **simplicity, speed, and f
 - 🎨 **TailwindCSS Ready** — Use Tailwind by default with zero setup
 - 🧩 **TSX/JSX Support** — Write strongly-typed UI components
 - ⚙️ **Custom Runtime** — Lightweight, optimized rendering engine
+- 🧵 **Reactive Hooks** — Built with `arfa-reactives` for state and lifecycle
 - 🚫 **Zero Config** — Sensible defaults with easy overrides
 - 📘 **TypeScript Native** — First-class TypeScript support
 
@@ -45,6 +46,56 @@ npm run dev
 ## Contact
 
 For any inquiries, please contact: armantarhani1997@gmail.com
+
+## 🔄 Reactivity with arfa-reactives
+
+Arfa.js uses the arfa-reactives package to provide a familiar but lightweight hook system:
+
+ref(initialValue) → Create reactive state ([getter, setter])
+
+onMounted(fn) → Run logic when a component is mounted
+
+onEffect(fn, deps) → Run side effects when dependencies change
+
+Example Usage:
+
+```bash
+import { onMounted, onEffect, ref } from "arfa-reactives";
+
+export default function CounterExample() {
+  const [count, setCount] = ref(1);
+  const [showMessage, setShowMessage] = ref(true);
+
+  // Run once on mount
+  onMounted(() => {
+    console.log("Component mounted with initial count:", count());
+  });
+
+  // Effect runs when count changes
+  onEffect(() => {
+    console.log("Count changed:", count());
+    return () => console.log("Cleaning up for count:", count());
+  }, [count]);
+
+  // Effect runs when showMessage changes
+  onEffect(() => {
+    console.log("Show message changed:", showMessage());
+  }, [showMessage]);
+
+  return (
+    <div>
+      <h2>Current count: {count()}</h2>
+      <button onClick={() => setCount(c => c + 1)}>Increment</button>
+      <button onClick={() => setShowMessage(v => !v)}>Toggle Message</button>
+
+      {showMessage() && (
+        <p>{count() % 2 === 0 ? "Count is even!" : "Count is odd!"}</p>
+      )}
+    </div>
+  );
+}
+
+```
 
 ## 📁 File-based Routing
 

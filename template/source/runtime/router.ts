@@ -34,8 +34,10 @@ function filePathToRouteInfo(
       .replace(/^\.\/pages/, "")
       .replace(/\.(t|j)sx?$/, "")
       .replace(/\/index$/, "") || "/";
+
   const paramNames: string[] = [];
   let isDynamic = false;
+
   const segments = routePath.split("/").filter(Boolean);
   if (segments.length === 0) {
     return {
@@ -47,6 +49,7 @@ function filePathToRouteInfo(
       dirPath: "/",
     };
   }
+
   const regexParts = segments.map((seg) => {
     const match = seg.match(/^\[(\.\.\.)?(.+?)\]$/);
     if (match) {
@@ -59,7 +62,9 @@ function filePathToRouteInfo(
       return seg.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
     }
   });
+
   const regex = new RegExp("^/" + regexParts.join("/") + "/?$");
+
   return {
     filePath,
     routePath: routePath === "" ? "/" : routePath,
@@ -77,15 +82,19 @@ function buildRoutesAndLayouts(routeModules: Record<string, any>) {
   layoutGuardRedirectByDir = {};
   appWrapper = null;
   notFoundPage = null;
+
   const records: RouteRecord[] = [];
+
   for (const [filePath, mod] of Object.entries(routeModules)) {
     const normalized = filePath
       .replace(/^\.\/pages/, "")
       .replace(/\.(t|j)sx?$/, "");
+
     if (normalized === "/404") {
       notFoundPage = mod.default;
       continue;
     }
+
     if (normalized.endsWith("/_layout")) {
       const dir = normalized.replace(/\/_layout$/, "") || "/";
       const key = dir === "" ? "/" : dir;
@@ -106,10 +115,12 @@ function buildRoutesAndLayouts(routeModules: Record<string, any>) {
       layoutGuardRedirectByDir[key] = redirect;
       continue;
     }
+
     if (normalized === "/_app") {
       appWrapper = mod.default;
       continue;
     }
+
     const rec = filePathToRouteInfo(filePath, mod.default);
     const dirPath =
       filePath
@@ -119,6 +130,7 @@ function buildRoutesAndLayouts(routeModules: Record<string, any>) {
     rec.dirPath = dirPath === "" ? "/" : dirPath;
     records.push(rec);
   }
+
   records.sort((a, b) => {
     if (a.isDynamic === b.isDynamic) {
       const aSegs = a.routePath.split("/").filter(Boolean).length;
@@ -127,6 +139,7 @@ function buildRoutesAndLayouts(routeModules: Record<string, any>) {
     }
     return a.isDynamic ? 1 : -1;
   });
+
   routes = records;
 }
 
@@ -220,30 +233,34 @@ async function runLayoutGuardsForPath(
   return { ok: true };
 }
 
-function renderVNodeWithLayoutsAndApp(
-  pageComp: PageComponent,
+function buildWrappedComponent(
+  PageComp: PageComponent,
   pathname: string,
-  params: Record<string, any>,
-  renderFn: (comp: PageComponent) => void
-) {
-  const pageVNode = pageComp({ params });
+  params: Record<string, any>
+): PageComponent {
+  let inner: PageComponent = () => PageComp({ params });
   const layouts = getLayoutsForPath(pathname);
-  let composed = pageVNode;
   for (let i = layouts.length - 1; i >= 0; i--) {
     const Layout = layouts[i];
-    composed = Layout({ children: composed, params });
+    const Prev = inner;
+    inner = (() => {
+      return () => Layout({ children: Prev(), params });
+    })();
   }
   if (appWrapper) {
-    const finalVNode = appWrapper({
-      Component: () => composed,
-      pageProps: { params },
-    });
-    const Wrapper: PageComponent = () => finalVNode;
-    renderFn(Wrapper);
-  } else {
-    const Wrapper: PageComponent = () => composed;
-    renderFn(Wrapper);
+    const Prev = inner;
+    inner = (() => {
+      return () =>
+        appWrapper!({ Component: () => Prev(), pageProps: { params } });
+    })();
   }
+  return inner;
+}
+
+async function renderWrappedNotFound(renderFn: (comp: PageComponent) => void) {
+  const PageComp = notFoundPage ?? NotFound;
+  const Wrapper = buildWrappedComponent(PageComp, "/404", {});
+  renderFn(Wrapper);
 }
 
 export async function navigateTo(
@@ -256,21 +273,20 @@ export async function navigateTo(
   const { record, params } = matchRoute(pathname);
   if (push) history.pushState({}, "", pathname + url.search + url.hash);
   if (!record) {
-    const PageComp = notFoundPage ?? NotFound;
-    renderVNodeWithLayoutsAndApp(PageComp, "/404", {}, renderFn);
+    await renderWrappedNotFound(renderFn);
     return;
   }
   const guardResult = await runLayoutGuardsForPath(pathname, params);
   if (!guardResult.ok) {
     const target = guardResult.redirect ?? "/";
     if (target === pathname) {
-      const PageComp = notFoundPage ?? NotFound;
-      renderVNodeWithLayoutsAndApp(PageComp, "/404", {}, renderFn);
+      await renderWrappedNotFound(renderFn);
       return;
     }
     await navigateTo(target, renderFn);
     return;
   }
   const Page = record.component;
-  renderVNodeWithLayoutsAndApp(Page, pathname, params, renderFn);
+  const Wrapper = buildWrappedComponent(Page, pathname, params);
+  renderFn(Wrapper);
 }
