@@ -14,7 +14,7 @@
   "dependencies": {
     "@tailwindcss/vite": "^4.1.11",
     "arfa-reactives": "^0.1.7",
-    "arfa-runtime": "^0.1.4",
+    "arfa-runtime": "^0.1.6",
     "arfa-types": "^0.2.3",
     "tailwindcss": "^4.1.11"
   }
