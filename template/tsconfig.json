@@ -18,6 +18,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["source", "jsx.d.ts"],
+  "include": ["source"],
   "exclude": ["node_modules", "dist"]
 }
