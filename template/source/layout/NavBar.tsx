@@ -4,7 +4,9 @@ export const NavBar = () => {
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-between h-14">
           <div className="flex items-center">
-            <h1 className="text-lg font-semibold text-white">Arfa JS</h1>
+            <a href="/">
+              <h1 className="text-lg font-semibold text-white">Arfa JS</h1>
+            </a>
           </div>
 
           <div className="flex items-center gap-4">
