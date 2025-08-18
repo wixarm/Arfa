@@ -13,7 +13,7 @@
     "type": "git",
     "url": "git+https://github.com/wixarm/Arfa.git"
   },
-  "homepage": "https://github.com/wixarm/Arfa.git",
+  "homepage": "https://wixarm.github.io/Arfa/",
   "author": "Arman tarhani doreh",
   "description": "A modern TSX-based framework for building fast, component-driven web applications.",
   "keywords": [
