@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arfa.js Documentation</title>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-light: #6366f1;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #94a3b8;
+            --code-bg: #f1f5f9;
+            --border: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .logo {
+            height: 120px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin: 0;
+            color: var(--primary);
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin-top: 40px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
+            color: var(--primary);
+        }
+
+        h3 {
+            font-size: 1.4rem;
+            margin-top: 30px;
+        }
+
+        code {
+            background: var(--code-bg);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9em;
+        }
+
+        pre {
+            background: var(--code-bg);
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .feature-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .feature-card h3 {
+            margin-top: 0;
+            color: var(--primary-light);
+        }
+
+        .nav-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border);
+            margin: 30px 0 20px;
+        }
+
+        .nav-tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+        }
+
+        .nav-tab.active {
+            border-bottom-color: var(--primary);
+            font-weight: 600;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .route-structure {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .route-structure ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .route-structure li {
+            padding: 5px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .route-structure li:before {
+            content: "📄";
+            position: absolute;
+            left: 0;
+        }
+
+        .route-structure li.folder:before {
+            content: "📁";
+        }
+
+        .route-structure li.layout:before {
+            content: "🧩";
+        }
+
+        .route-structure li.dynamic:before {
+            content: "🔄";
+        }
+
+        footer {
+            margin: 60px 0 40px;
+            text-align: center;
+            color: var(--gray);
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <picture>
+            <img class="logo" alt="Arfa.js logo" src="https://iili.io/FbTuVl2.md.png" />
+        </picture>
+        <h1>Arfa.js Documentation</h1>
+        <p>A modern TSX-based framework for building fast, component-driven web applications</p>
+    </header>
+
+    <section>
+        <h2>📖 Overview</h2>
+        <p>Arfa.js is a lightweight framework that compiles <strong>TSX</strong> into optimized JavaScript, powered by
+            <strong>Vite</strong> and the custom <strong>Arfa runtime engine</strong>.</p>
+        <p>It offers a <strong>React-like component model</strong> and a <strong>Next.js-style file-based
+                router</strong>, making it both familiar and easy to adopt.</p>
+        <p>Created by <strong>Arman Tarhani</strong>, Arfa.js aims to provide <strong>simplicity, speed, and
+                flexibility</strong> out of the box.</p>
+    </section>
+
+    <section>
+        <h2>✨ Features</h2>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h3>⚡ Blazing Fast</h3>
+                <p>Vite-powered dev server and builds with near-instant hot module replacement.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🎨 TailwindCSS Ready</h3>
+                <p>Use Tailwind by default with zero setup required. Just start writing classes.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🧩 TSX/JSX Support</h3>
+                <p>Write strongly-typed UI components with full TypeScript support.</p>
+            </div>
+            <div class="feature-card">
+                <h3>⚙️ Custom Runtime</h3>
+                <p>Lightweight, optimized rendering engine designed for performance.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🧵 Reactive Hooks</h3>
+                <p>Built with <code>arfa-reactives</code> for state and lifecycle management.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🚫 Zero Config</h3>
+                <p>Sensible defaults with easy overrides when you need customization.</p>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2>🚀 Getting Started</h2>
+
+        <h3>Quick Start</h3>
+        <p>Create a new Arfa.js project with:</p>
+        <pre><code>npx create-arfa my-app
+cd my-app
+npm install
+npm run dev</code></pre>
+
+        <p>This will:</p>
+        <ul>
+            <li>Scaffold a new project with the default template</li>
+            <li>Install all dependencies</li>
+            <li>Start the development server at <code>http://localhost:3000</code></li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>🔄 Reactivity System</h2>
+        <p>Arfa.js uses the <code>arfa-reactives</code> package to provide a familiar but lightweight hook system:</p>
+
+        <div class="nav-tabs">
+            <div class="nav-tab active" onclick="showTab('hooks-overview')">Overview</div>
+            <div class="nav-tab" onclick="showTab('hooks-example')">Example</div>
+        </div>
+
+        <div id="hooks-overview" class="tab-content active">
+            <h3>Core Hooks</h3>
+            <ul>
+                <li><code>ref(initialValue)</code> → Create reactive state ([getter, setter])</li>
+                <li><code>onMounted(fn)</code> → Run logic when a component is mounted</li>
+                <li><code>onEffect(fn, deps)</code> → Run side effects when dependencies change</li>
+                <li><code>computed(fn)</code> → Create a computed value that updates reactively</li>
+                <li><code>onUnmounted(fn)</code> → Run cleanup when a component unmounts</li>
+            </ul>
+        </div>
+
+        <div id="hooks-example" class="tab-content">
+            <pre><code>import { onMounted, onEffect, ref } from "arfa-reactives";
+
+export default function CounterExample() {
+  const [count, setCount] = ref(1);
+  const [showMessage, setShowMessage] = ref(true);
+
+  // Run once on mount
+  onMounted(() => {
+    console.log("Component mounted with initial count:", count());
+  });
+
+  // Effect runs when count changes
+  onEffect(() => {
+    console.log("Count changed:", count());
+    return () => console.log("Cleaning up for count:", count());
+  }, [count]);
+
+  // Effect runs when showMessage changes
+  onEffect(() => {
+    console.log("Show message changed:", showMessage());
+  }, [showMessage]);
+
+  return (
+    &lt;div&gt;
+      &lt;h2&gt;Current count: {count()}&lt;/h2&gt;
+      &lt;button onClick={() => setCount(c => c + 1)}&gt;Increment&lt;/button&gt;
+      &lt;button onClick={() => setShowMessage(v => !v)}&gt;Toggle Message&lt;/button&gt;
+
+      {showMessage() && (
+        &lt;p&gt;{count() % 2 === 0 ? "Count is even!" : "Count is odd!"}&lt;/p&gt;
+      )}
+    &lt;/div&gt;
+  );
+}</code></pre>
+        </div>
+    </section>
+
+    <section>
+        <h2>📁 File-based Routing</h2>
+        <p>Arfa.js uses a file-system based router where routes are defined by files in the <code>pages</code>
+            directory, similar to Next.js.</p>
+
+        <div class="route-structure">
+            <h3>Basic Routes</h3>
+            <ul>
+                <li><code>pages/index.tsx</code> → <code>/</code></li>
+                <li><code>pages/about.tsx</code> → <code>/about</code></li>
+                <li><code>pages/contact.tsx</code> → <code>/contact</code></li>
+            </ul>
+
+            <h3>Nested Routes</h3>
+            <ul>
+                <li class="folder">pages/blog/
+                    <ul>
+                        <li><code>index.tsx</code> → <code>/blog</code></li>
+                        <li class="dynamic"><code>[slug].tsx</code> → <code>/blog/:slug</code></li>
+                        <li><code>latest.tsx</code> → <code>/blog/latest</code></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3>Dynamic Routes</h3>
+            <ul>
+                <li class="folder">pages/users/
+                    <ul>
+                        <li class="dynamic"><code>[id].tsx</code> → <code>/users/:id</code></li>
+                    </ul>
+                </li>
+                <li class="folder">pages/posts/
+                    <ul>
+                        <li class="folder dynamic">[category]/
+                            <ul>
+                                <li class="dynamic"><code>[id].tsx</code> → <code>/posts/:category/:id</code></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <h3>Layout System</h3>
+        <p>Create layouts by adding <code>_layout.tsx</code> files:</p>
+        <div class="route-structure">
+            <ul>
+                <li class="layout"><code>pages/_layout.tsx</code> ← Applies to all routes</li>
+                <li><code>pages/about.tsx</code></li>
+                <li class="folder">pages/blog/
+                    <ul>
+                        <li class="layout"><code>_layout.tsx</code> ← Applies to /blog/*</li>
+                        <li><code>index.tsx</code></li>
+                        <li class="dynamic"><code>[slug].tsx</code></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <section>
+        <h2>🔒 Protected Routes</h2>
+        <p>Arfa.js provides a simple way to protect routes using layout files:</p>
+
+        <h3>How It Works</h3>
+        <ol>
+            <li>Router builds a list of layouts mapped to directory paths</li>
+            <li>When navigating, collects layouts for the destination path</li>
+            <li>Calls each layout's <code>protect</code> function in order</li>
+            <li>If any <code>protect</code> returns false, redirects to that layout's <code>protectRedirect</code> (or
+                /)</li>
+            <li>If all guards pass, renders the page wrapped in layouts</li>
+        </ol>
+
+        <h3>Basic Example</h3>
+        <pre><code>export function protect() {
+  return !!localStorage.getItem("token");
+}
+
+export const protectRedirect = "/login";
+
+export default function AdminLayout({ children }: any) {
+  return (
+    &lt;div class="admin-shell"&gt;
+      &lt;aside&gt;Admin menu&lt;/aside&gt;
+      &lt;main&gt;{children}&lt;/main&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+
+        <h3>Async Guard Example</h3>
+        <pre><code>// pages/dashboard/_layout.tsx
+export async function protect() {
+  const token = localStorage.getItem("token");
+  if (!token) return false;
+  
+  const ok = await fetch("/api/validate", { 
+    headers: { Authorization: `Bearer ${token}` } 
+  })
+    .then(r => r.ok)
+    .catch(() => false);
+    
+  return ok;
+}
+
+export const protectRedirect = "/login";
+
+export default function DashboardLayout({ children }: any) {
+  return &lt;div class="dashboard"&gt;{children}&lt;/div&gt;;
+}</code></pre>
+    </section>
+
+    <section>
+        <h2>📦 Project Structure</h2>
+        <p>A typical Arfa.js project looks like this:</p>
+        <pre><code>my-app/
+├── pages/                # Routes and layouts
+│   ├── _layout.tsx       # Root layout
+│   ├── index.tsx         # Home page
+│   ├── about.tsx
+│   └── admin/
+│       ├── _layout.tsx   # Admin layout
+│       └── dashboard.tsx
+├── public/               # Static files
+├── src/
+│   ├── components/       # Shared components
+│   ├── styles/           # Global styles
+│   └── utils/            # Utility functions
+├── arfa.config.ts        # Configuration
+└── package.json</code></pre>
+    </section>
+
+    <section>
+        <h2>📞 Contact</h2>
+        <p>For any inquiries, please contact: <a href="mailto:armantarhani1997@gmail.com">armantarhani1997@gmail.com</a>
+        </p>
+    </section>
+
+    <footer>
+        <p>© 2023 Arfa.js - Created by Arman Tarhani</p>
+    </footer>
+
+    <script>
+        function showTab(tabId) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Deactivate all tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Activate selected tab
+            document.getElementById(tabId).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+    </script>
+</body>
+
+</html>
