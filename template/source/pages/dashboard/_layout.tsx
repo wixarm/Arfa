@@ -1,4 +1,4 @@
-import { FC, GuardFn, PropsWithChildren } from "arfa-types";
+import { FC, GuardFn } from "arfa-types";
 
 /**
  * Authentication guard for protected routes.
@@ -17,9 +17,8 @@ export const protect: GuardFn = () => {
 export const protectRedirect = "/login" as const;
 
 // If your router passes params to layouts, include them:
-type DashboardLayoutProps = PropsWithChildren<{ params?: unknown }>;
 
-const DashboardLayout: FC<DashboardLayoutProps> = ({ children }) => {
+const DashboardLayout: FC = ({ children }) => {
   return (
     <div class="bg-gray-950 text-gray-100 flex flex-col items-center justify-center p-6 overflow-hidden relative">
       <div class="content">{children}</div>
