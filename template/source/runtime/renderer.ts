@@ -92,6 +92,7 @@ function createDomElement(vnode: Child): Node {
         const id = vnode.props.__instanceId;
         const tracked = findTracked(id);
         if (tracked) {
+          tracked.props = vnode.props ?? {};
           setCurrentInstance(id);
           const newVNode = tracked.componentFn(tracked.props || {});
           clearCurrentInstance();
@@ -113,11 +114,22 @@ function createDomElement(vnode: Child): Node {
           clearCurrentInstance();
 
           const newDom = createDomElement(newVNode);
+
+          // preserve instance metadata on the new root node
+          (newDom as any).__instanceId = instanceId;
+          (newDom as any).__componentFn = tracked.componentFn;
+          (newDom as any).__props = tracked.props ?? {};
+
+          // replace old root node with the new one
           tracked.parent.replaceChild(newDom, tracked.rootNode);
           tracked.rootNode = newDom;
 
           requestAnimationFrame(() => {
-            triggerEffectsForAllInstances();
+            try {
+              triggerEffectsForAllInstances();
+            } catch (e) {
+              console.error(e);
+            }
           });
         } catch (err) {
           console.error("instance rerender error", err);
