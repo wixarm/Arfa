@@ -7,27 +7,129 @@
     <title>Arfa.js Documentation</title>
     <style>
         :root {
-            --primary: #4f46e5;
-            --primary-light: #6366f1;
-            --dark: #1e293b;
+            --primary: #8b5cf6;
+            --primary-light: #a78bfa;
+            --dark: #0f172a;
             --light: #f8fafc;
-            --gray: #94a3b8;
-            --code-bg: #f1f5f9;
-            --border: #e2e8f0;
+            --gray: #64748b;
+            --code-bg: #1e293b;
+            --border: #334155;
+            --sidebar-bg: #1e293b;
+            --sidebar-width: 280px;
+            --content-bg: rgb(13, 19, 28);
+            --text-color: #e2e8f0;
+            --text-muted: #94a3b8;
         }
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             line-height: 1.6;
-            color: var(--dark);
-            max-width: 1200px;
+            color: var(--text-color);
+            background-color: var(--content-bg);
+            margin: 0;
+            padding: 0;
+            display: grid;
+            grid-template-columns: var(--sidebar-width) 1fr;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            background-color: var(--sidebar-bg);
+            height: 100vh;
+            position: sticky;
+            top: 0;
+            overflow-y: auto;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .sidebar-header {
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 20px;
+        }
+
+        .sidebar-logo {
+            height: 40px;
+            margin-bottom: 10px;
+        }
+
+        .sidebar-title {
+            font-size: 1.2rem;
+            margin: 0;
+            color: var(--primary);
+        }
+
+        .sidebar-nav {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-nav-item {
+            margin-bottom: 8px;
+        }
+
+        .sidebar-nav-link {
+            display: block;
+            padding: 8px 12px;
+            color: var(--text-color);
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .sidebar-nav-link:hover {
+            background-color: rgba(139, 92, 246, 0.1);
+            color: var(--primary-light);
+            text-decoration: none;
+
+        }
+
+        .sidebar-nav-link.active {
+            background-color: rgba(139, 92, 246, 0.2);
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .sidebar-subnav {
+            list-style: none;
+            padding-left: 20px;
+            margin-top: 4px;
+        }
+
+        .sidebar-subnav-item {
+            margin-bottom: 4px;
+        }
+
+        .sidebar-subnav-link {
+            display: block;
+            padding: 6px 12px;
+            color: var(--text-muted);
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .sidebar-subnav-link:hover {
+            color: var(--primary-light);
+            background-color: rgba(139, 92, 246, 0.1);
+        }
+
+        /* Main Content Styles */
+        .content {
+            padding: 40px;
+            max-width: 900px;
             margin: 0 auto;
-            padding: 0 20px;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         header {
             text-align: center;
-            margin: 40px 0;
+            margin-bottom: 40px;
         }
 
         .logo {
@@ -43,15 +145,31 @@
 
         h2 {
             font-size: 1.8rem;
-            margin-top: 40px;
+            margin-top: 60px;
             border-bottom: 1px solid var(--border);
             padding-bottom: 10px;
             color: var(--primary);
+            scroll-margin-top: 20px;
         }
 
         h3 {
             font-size: 1.4rem;
-            margin-top: 30px;
+            margin-top: 40px;
+            color: var(--primary-light);
+        }
+
+        p,
+        li {
+            color: var(--text-color);
+        }
+
+        a {
+            color: var(--primary-light);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
         }
 
         code {
@@ -60,6 +178,20 @@
             border-radius: 4px;
             font-family: 'Fira Code', monospace;
             font-size: 0.9em;
+            color: #f8fafc;
+            border: 1px solid var(--border);
+        }
+
+        /* Special styling for paragraphs with class="code" */
+        p.code {
+            background: var(--code-bg);
+            padding: 12px 16px;
+            border-radius: 6px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9em;
+            border: 1px solid var(--border);
+            overflow-x: auto;
+            margin: 16px 0;
         }
 
         pre {
@@ -68,6 +200,13 @@
             border-radius: 8px;
             overflow-x: auto;
             margin: 20px 0;
+            border: 1px solid var(--border);
+        }
+
+        pre code {
+            background: transparent;
+            padding: 0;
+            border: none;
         }
 
         .feature-grid {
@@ -78,11 +217,16 @@
         }
 
         .feature-card {
-            background: white;
+            background: var(--dark);
             border: 1px solid var(--border);
             border-radius: 8px;
             padding: 20px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-2px);
         }
 
         .feature-card h3 {
@@ -100,10 +244,12 @@
             padding: 10px 20px;
             cursor: pointer;
             border-bottom: 3px solid transparent;
+            color: var(--text-muted);
         }
 
         .nav-tab.active {
             border-bottom-color: var(--primary);
+            color: var(--text-color);
             font-weight: 600;
         }
 
@@ -116,7 +262,7 @@
         }
 
         .route-structure {
-            background: white;
+            background: var(--dark);
             border: 1px solid var(--border);
             border-radius: 8px;
             padding: 20px;
@@ -132,6 +278,7 @@
             padding: 5px 0;
             padding-left: 20px;
             position: relative;
+            color: var(--text-color);
         }
 
         .route-structure li:before {
@@ -155,100 +302,201 @@
         footer {
             margin: 60px 0 40px;
             text-align: center;
-            color: var(--gray);
+            color: var(--text-muted);
             font-size: 0.9em;
+        }
+
+        /* Back to top button */
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--primary);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 100;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            body {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: static;
+                height: auto;
+                width: 100%;
+                padding: 15px;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 
 <body>
-    <header>
-        <picture>
-            <img class="logo" alt="Arfa.js logo" src="https://iili.io/FbTuVl2.md.png" />
-        </picture>
-        <h1>Arfa.js Documentation</h1>
-        <p>A modern TSX-based framework for building fast, component-driven web applications</p>
-    </header>
+    <aside class="sidebar">
 
-    <section>
-        <h2>📖 Overview</h2>
-        <p>Arfa.js is a lightweight framework that compiles <strong>TSX</strong> into optimized JavaScript, powered by
-            <strong>Vite</strong> and the custom <strong>Arfa runtime engine</strong>.</p>
-        <p>It offers a <strong>React-like component model</strong> and a <strong>Next.js-style file-based
-                router</strong>, making it both familiar and easy to adopt.</p>
-        <p>Created by <strong>Arman Tarhani</strong>, Arfa.js aims to provide <strong>simplicity, speed, and
-                flexibility</strong> out of the box.</p>
-    </section>
+        <nav>
+            <ul class="sidebar-nav">
+                <li class="sidebar-nav-item">
+                    <a href="#overview" class="sidebar-nav-link active">📖 Overview</a>
+                </li>
+                <li class="sidebar-nav-item">
+                    <a href="#features" class="sidebar-nav-link">✨ Features</a>
+                </li>
+                <li class="sidebar-nav-item">
+                    <a href="#getting-started" class="sidebar-nav-link">🚀 Getting Started</a>
+                    <ul class="sidebar-subnav">
+                        <li class="sidebar-subnav-item">
+                            <a href="#quick-start" class="sidebar-subnav-link">Quick Start</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="sidebar-nav-item">
+                    <a href="#reactivity" class="sidebar-nav-link">🔄 Reactivity System</a>
+                    <ul class="sidebar-subnav">
+                        <li class="sidebar-subnav-item">
+                            <a href="#core-hooks" class="sidebar-subnav-link">Core Hooks</a>
+                        </li>
+                        <li class="sidebar-subnav-item">
+                            <a href="#hooks-example" class="sidebar-subnav-link">Example</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="sidebar-nav-item">
+                    <a href="#routing" class="sidebar-nav-link">📁 File-based Routing</a>
+                    <ul class="sidebar-subnav">
+                        <li class="sidebar-subnav-item">
+                            <a href="#basic-routes" class="sidebar-subnav-link">Basic Routes</a>
+                        </li>
+                        <li class="sidebar-subnav-item">
+                            <a href="#nested-routes" class="sidebar-subnav-link">Nested Routes</a>
+                        </li>
+                        <li class="sidebar-subnav-item">
+                            <a href="#dynamic-routes" class="sidebar-subnav-link">Dynamic Routes</a>
+                        </li>
+                        <li class="sidebar-subnav-item">
+                            <a href="#layout-system" class="sidebar-subnav-link">Layout System</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="sidebar-nav-item">
+                    <a href="#protected-routes" class="sidebar-nav-link">🔒 Protected Routes</a>
+                </li>
+                <li class="sidebar-nav-item">
+                    <a href="#project-structure" class="sidebar-nav-link">📦 Project Structure</a>
+                </li>
+                <li class="sidebar-nav-item">
+                    <a href="#contact" class="sidebar-nav-link">📞 Contact</a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
 
-    <section>
-        <h2>✨ Features</h2>
-        <div class="feature-grid">
-            <div class="feature-card">
-                <h3>⚡ Blazing Fast</h3>
-                <p>Vite-powered dev server and builds with near-instant hot module replacement.</p>
-            </div>
-            <div class="feature-card">
-                <h3>🎨 TailwindCSS Ready</h3>
-                <p>Use Tailwind by default with zero setup required. Just start writing classes.</p>
-            </div>
-            <div class="feature-card">
-                <h3>🧩 TSX/JSX Support</h3>
-                <p>Write strongly-typed UI components with full TypeScript support.</p>
-            </div>
-            <div class="feature-card">
-                <h3>⚙️ Custom Runtime</h3>
-                <p>Lightweight, optimized rendering engine designed for performance.</p>
-            </div>
-            <div class="feature-card">
-                <h3>🧵 Reactive Hooks</h3>
-                <p>Built with <code>arfa-reactives</code> for state and lifecycle management.</p>
-            </div>
-            <div class="feature-card">
-                <h3>🚫 Zero Config</h3>
-                <p>Sensible defaults with easy overrides when you need customization.</p>
-            </div>
-        </div>
-    </section>
+    <main class="content">
+        <header>
+            <picture>
+                <img class="logo" alt="Arfa.js logo" src="https://iili.io/FbTuVl2.md.png" />
+            </picture>
+            <h1>Arfa.js Documentation</h1>
+            <p>A modern TSX-based framework for building fast, component-driven web applications</p>
+        </header>
 
-    <section>
-        <h2>🚀 Getting Started</h2>
+        <section id="overview">
+            <h2>📖 Overview</h2>
+            <p>Arfa.js is a lightweight framework that compiles <strong>TSX</strong> into optimized JavaScript, powered
+                by <strong>Vite</strong> and the custom <strong>Arfa runtime engine</strong>.</p>
+            <p>It offers a <strong>React-like component model</strong> and a <strong>Next.js-style file-based
+                    router</strong>, making it both familiar and easy to adopt.</p>
+            <p>Created by <strong>Arman Tarhani</strong>, Arfa.js aims to provide <strong>simplicity, speed, and
+                    flexibility</strong> out of the box.</p>
+        </section>
 
-        <h3>Quick Start</h3>
-        <p>Create a new Arfa.js project with:</p>
-        <pre><code>npx create-arfa my-app
+        <section id="features">
+            <h2>✨ Features</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>⚡ Blazing Fast</h3>
+                    <p>Vite-powered dev server and builds with near-instant hot module replacement.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🎨 TailwindCSS Ready</h3>
+                    <p>Use Tailwind by default with zero setup required. Just start writing classes.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🧩 TSX/JSX Support</h3>
+                    <p>Write strongly-typed UI components with full TypeScript support.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>⚙️ Custom Runtime</h3>
+                    <p>Lightweight, optimized rendering engine designed for performance.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🧵 Reactive Hooks</h3>
+                    <p>Built with <code>arfa-reactives</code> for state and lifecycle management.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🚫 Zero Config</h3>
+                    <p>Sensible defaults with easy overrides when you need customization.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="getting-started">
+            <h2>🚀 Getting Started</h2>
+
+            <h3 id="quick-start">Quick Start</h3>
+            <p>Create a new Arfa.js project with:</p>
+            <pre><code>npx create-arfa my-app
 cd my-app
 npm install
 npm run dev</code></pre>
 
-        <p>This will:</p>
-        <ul>
-            <li>Scaffold a new project with the default template</li>
-            <li>Install all dependencies</li>
-            <li>Start the development server at <code>http://localhost:3000</code></li>
-        </ul>
-    </section>
+            <p>This will:</p>
+            <ul>
+                <li>Scaffold a new project with the default template</li>
+                <li>Install all dependencies</li>
+                <li>Start the development server at <code>http://localhost:3000</code></li>
+            </ul>
 
-    <section>
-        <h2>🔄 Reactivity System</h2>
-        <p>Arfa.js uses the <code>arfa-reactives</code> package to provide a familiar but lightweight hook system:</p>
+            <p class="code">Note: You'll need Node.js 16.x or later installed on your system.</p>
+        </section>
 
-        <div class="nav-tabs">
-            <div class="nav-tab active" onclick="showTab('hooks-overview')">Overview</div>
-            <div class="nav-tab" onclick="showTab('hooks-example')">Example</div>
-        </div>
+        <section id="reactivity">
+            <h2>🔄 Reactivity System</h2>
+            <p>Arfa.js uses the <code>arfa-reactives</code> package to provide a familiar but lightweight hook system.
+            </p>
 
-        <div id="hooks-overview" class="tab-content active">
-            <h3>Core Hooks</h3>
+            <h3 id="core-hooks">Core Hooks</h3>
             <ul>
                 <li><code>ref(initialValue)</code> → Create reactive state ([getter, setter])</li>
                 <li><code>onMounted(fn)</code> → Run logic when a component is mounted</li>
                 <li><code>onEffect(fn, deps)</code> → Run side effects when dependencies change</li>
-                <li><code>computed(fn)</code> → Create a computed value that updates reactively</li>
-                <li><code>onUnmounted(fn)</code> → Run cleanup when a component unmounts</li>
             </ul>
-        </div>
 
-        <div id="hooks-example" class="tab-content">
+            <p class="code">Tip: The reactivity system is optimized for performance with minimal overhead.</p>
+
+            <h3 id="hooks-example">Example</h3>
             <pre><code>import { onMounted, onEffect, ref } from "arfa-reactives";
 
 export default function CounterExample() {
@@ -283,101 +531,132 @@ export default function CounterExample() {
     &lt;/div&gt;
   );
 }</code></pre>
-        </div>
-    </section>
 
-    <section>
-        <h2>📁 File-based Routing</h2>
-        <p>Arfa.js uses a file-system based router where routes are defined by files in the <code>pages</code>
-            directory, similar to Next.js.</p>
+            <p class="code">Remember: Always access reactive values using the getter function (count()) inside effects.
+            </p>
+        </section>
 
-        <div class="route-structure">
-            <h3>Basic Routes</h3>
-            <ul>
-                <li><code>pages/index.tsx</code> → <code>/</code></li>
-                <li><code>pages/about.tsx</code> → <code>/about</code></li>
-                <li><code>pages/contact.tsx</code> → <code>/contact</code></li>
-            </ul>
+        <section id="routing">
+            <h2>📁 File-based Routing</h2>
+            <p>Arfa.js uses a file-system based router where routes are defined by files in the <code>pages</code>
+                directory, similar to Next.js.</p>
 
-            <h3>Nested Routes</h3>
-            <ul>
-                <li class="folder">pages/blog/
-                    <ul>
-                        <li><code>index.tsx</code> → <code>/blog</code></li>
-                        <li class="dynamic"><code>[slug].tsx</code> → <code>/blog/:slug</code></li>
-                        <li><code>latest.tsx</code> → <code>/blog/latest</code></li>
-                    </ul>
-                </li>
-            </ul>
+            <h3 id="basic-routes">Basic Routes</h3>
+            <div class="route-structure">
+                <ul>
+                    <li><code>pages/index.tsx</code> → <code>/</code></li>
+                    <li><code>pages/about.tsx</code> → <code>/about</code></li>
+                    <li><code>pages/contact.tsx</code> → <code>/contact</code></li>
+                </ul>
+            </div>
 
-            <h3>Dynamic Routes</h3>
-            <ul>
-                <li class="folder">pages/users/
-                    <ul>
-                        <li class="dynamic"><code>[id].tsx</code> → <code>/users/:id</code></li>
-                    </ul>
-                </li>
-                <li class="folder">pages/posts/
-                    <ul>
-                        <li class="folder dynamic">[category]/
-                            <ul>
-                                <li class="dynamic"><code>[id].tsx</code> → <code>/posts/:category/:id</code></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
+            <p class="code">Each .tsx file in the pages directory becomes a route automatically.</p>
 
-        <h3>Layout System</h3>
-        <p>Create layouts by adding <code>_layout.tsx</code> files:</p>
-        <div class="route-structure">
-            <ul>
-                <li class="layout"><code>pages/_layout.tsx</code> ← Applies to all routes</li>
-                <li><code>pages/about.tsx</code></li>
-                <li class="folder">pages/blog/
-                    <ul>
-                        <li class="layout"><code>_layout.tsx</code> ← Applies to /blog/*</li>
-                        <li><code>index.tsx</code></li>
-                        <li class="dynamic"><code>[slug].tsx</code></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </section>
+            <h3 id="nested-routes">Nested Routes</h3>
+            <div class="route-structure">
+                <ul>
+                    <li class="folder">pages/blog/
+                        <ul>
+                            <li><code>index.tsx</code> → <code>/blog</code></li>
+                            <li class="dynamic"><code>[slug].tsx</code> → <code>/blog/:slug</code></li>
+                            <li><code>latest.tsx</code> → <code>/blog/latest</code></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
 
-    <section>
-        <h2>🔒 Protected Routes</h2>
-        <p>Arfa.js provides a simple way to protect routes using layout files:</p>
+            <h3 id="dynamic-routes">Dynamic Routes</h3>
+            <div class="route-structure">
+                <ul>
+                    <li class="folder">pages/users/
+                        <ul>
+                            <li class="dynamic"><code>[id].tsx</code> → <code>/users/:id</code></li>
+                        </ul>
+                    </li>
+                    <li class="folder">pages/posts/
+                        <ul>
+                            <li class="folder dynamic">[category]/
+                                <ul>
+                                    <li class="dynamic"><code>[id].tsx</code> → <code>/posts/:category/:id</code></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
 
-        <h3>How It Works</h3>
-        <ol>
-            <li>Router builds a list of layouts mapped to directory paths</li>
-            <li>When navigating, collects layouts for the destination path</li>
-            <li>Calls each layout's <code>protect</code> function in order</li>
-            <li>If any <code>protect</code> returns false, redirects to that layout's <code>protectRedirect</code> (or
-                /)</li>
-            <li>If all guards pass, renders the page wrapped in layouts</li>
-        </ol>
+            <p class="code">Dynamic segments are accessed via props.params in your components.</p>
 
-        <h3>Basic Example</h3>
-        <pre><code>export function protect() {
-  return !!localStorage.getItem("token");
-}
+            <h3 id="layout-system">Layout System</h3>
+            <p>Create layouts by adding <code>_layout.tsx</code> files:</p>
+            <div class="route-structure">
+                <ul>
+                    <li class="layout"><code>pages/_layout.tsx</code> ← Applies to all routes</li>
+                    <li><code>pages/about.tsx</code></li>
+                    <li class="folder">pages/blog/
+                        <ul>
+                            <li class="layout"><code>_layout.tsx</code> ← Applies to /blog/*</li>
+                            <li><code>index.tsx</code></li>
+                            <li class="dynamic"><code>[slug].tsx</code></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
 
-export const protectRedirect = "/login";
+            <p class="code">Layouts can be nested and will compose automatically.</p>
+        </section>
 
-export default function AdminLayout({ children }: any) {
+        <section id="protected-routes">
+            <h2>🔒 Protected Routes</h2>
+            <p>Arfa.js provides a simple way to protect routes using layout files.</p>
+
+            <h3>How It Works</h3>
+            <ol>
+                <li>Router builds a list of layouts mapped to directory paths</li>
+                <li>When navigating, collects layouts for the destination path</li>
+                <li>Calls each layout's <code>protect</code> function in order</li>
+                <li>If any <code>protect</code> returns false, redirects to that layout's <code>protectRedirect</code>
+                    (or /)</li>
+                <li>If all guards pass, renders the page wrapped in layouts</li>
+            </ol>
+
+            <h3>Basic Example</h3>
+            <pre><code>import { FC, GuardFn } from "arfa-types";
+
+/**
+ * Authentication guard for protected routes.
+ * Returns `true` if access is granted, `false` otherwise.
+ * Put your real auth logic here (token/session check).
+ */
+export const protect: GuardFn = () => {
+  // TODO: Implement actual authentication logic
+  return true;
+};
+
+/**
+ * Redirect path for unauthorized access.
+ * Router will send users here if `protect` returns false.
+ */
+export const protectRedirect = "/login" as const;
+
+// If your router passes params to layouts, include them:
+
+const DashboardLayout: FC = ({ children }) => {
   return (
     &lt;div class="admin-shell"&gt;
       &lt;aside&gt;Admin menu&lt;/aside&gt;
       &lt;main&gt;{children}&lt;/main&gt;
     &lt;/div&gt;
   );
-}</code></pre>
+};
 
-        <h3>Async Guard Example</h3>
-        <pre><code>// pages/dashboard/_layout.tsx
+export default DashboardLayout;
+</code></pre>
+
+            <p class="code">The protect function can be synchronous or asynchronous.</p>
+
+            <h3>Async Guard Example</h3>
+            <pre><code>// pages/dashboard/_layout.tsx
 export async function protect() {
   const token = localStorage.getItem("token");
   if (!token) return false;
@@ -396,12 +675,12 @@ export const protectRedirect = "/login";
 export default function DashboardLayout({ children }: any) {
   return &lt;div class="dashboard"&gt;{children}&lt;/div&gt;;
 }</code></pre>
-    </section>
+        </section>
 
-    <section>
-        <h2>📦 Project Structure</h2>
-        <p>A typical Arfa.js project looks like this:</p>
-        <pre><code>my-app/
+        <section id="project-structure">
+            <h2>📦 Project Structure</h2>
+            <p>A typical Arfa.js project looks like this:</p>
+            <pre><code>source/
 ├── pages/                # Routes and layouts
 │   ├── _layout.tsx       # Root layout
 │   ├── index.tsx         # Home page
@@ -409,26 +688,103 @@ export default function DashboardLayout({ children }: any) {
 │   └── admin/
 │       ├── _layout.tsx   # Admin layout
 │       └── dashboard.tsx
-├── public/               # Static files
+├── assets/               # Static files
+├── layout/               # optional
+├── core.tsx               # root script file
+├── styles.css               # global styles
 ├── src/
 │   ├── components/       # Shared components
 │   ├── styles/           # Global styles
 │   └── utils/            # Utility functions
 ├── arfa.config.ts        # Configuration
 └── package.json</code></pre>
-    </section>
 
-    <section>
-        <h2>📞 Contact</h2>
-        <p>For any inquiries, please contact: <a href="mailto:armantarhani1997@gmail.com">armantarhani1997@gmail.com</a>
-        </p>
-    </section>
+            <p class="code">You can customize this structure in arfa.config.ts if needed.</p>
+        </section>
 
-    <footer>
-        <p>© 2023 Arfa.js - Created by Arman Tarhani</p>
-    </footer>
+        <section id="contact">
+            <h2>📞 Contact</h2>
+            <p>For any inquiries, please contact: <a
+                    href="mailto:armantarhani1997@gmail.com">armantarhani1997@gmail.com</a></p>
+        </section>
+
+        <footer>
+            <p>© 2023 Arfa.js - Created by Arman Tarhani</p>
+        </footer>
+    </main>
+
+    <div class="back-to-top" id="backToTop">↑</div>
 
     <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+
+                    // Update active state in sidebar
+                    document.querySelectorAll('.sidebar-nav-link, .sidebar-subnav-link').forEach(link => {
+                        link.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                }
+            });
+        });
+
+        // Highlight current section in sidebar
+        window.addEventListener('scroll', function () {
+            const sections = document.querySelectorAll('section');
+            let currentSection = '';
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+
+                if (pageYOffset >= (sectionTop - 100)) {
+                    currentSection = '#' + section.getAttribute('id');
+                }
+            });
+
+            document.querySelectorAll('.sidebar-nav-link, .sidebar-subnav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === currentSection) {
+                    link.classList.add('active');
+
+                    // Also activate parent nav item if this is a subnav link
+                    if (link.classList.contains('sidebar-subnav-link')) {
+                        const parentItem = link.closest('.sidebar-nav-item');
+                        if (parentItem) {
+                            parentItem.querySelector('.sidebar-nav-link').classList.add('active');
+                        }
+                    }
+                }
+            });
+
+            // Show/hide back to top button
+            const backToTop = document.getElementById('backToTop');
+            if (window.pageYOffset > 300) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+
+        // Back to top functionality
+        document.getElementById('backToTop').addEventListener('click', function () {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Tab functionality
         function showTab(tabId) {
             // Hide all tab contents
             document.querySelectorAll('.tab-content').forEach(tab => {
