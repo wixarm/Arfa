@@ -1,6 +1,7 @@
 import { NavBar } from "../layout/NavBar";
+import { FC } from "arfa-types";
 
-export default function RootLayout({ children }: any) {
+const RootLayout: FC = ({ children }) => {
   return (
     <div class="h-dvh overflow-hidden">
       <NavBar />
@@ -9,4 +10,6 @@ export default function RootLayout({ children }: any) {
       </div>
     </div>
   );
-}
+};
+
+export default RootLayout;
