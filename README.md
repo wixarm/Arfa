@@ -11,6 +11,8 @@
 
 A modern **TSX-based framework** for building fast, component-driven web applications.
 
+**see the documentation of [Arfa JS](https://wixarm.github.io/Arfa/)**
+
 ---
 
 ## 📖 Overview
