@@ -2,51 +2,83 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Arfa.js Documentation</title>
     <style>
         :root {
-            --primary: #8b5cf6;
-            --primary-light: #a78bfa;
-            --dark: #0f172a;
-            --light: #f8fafc;
-            --gray: #64748b;
-            --code-bg: #1e293b;
-            --border: #334155;
-            --sidebar-bg: #1e293b;
-            --sidebar-width: 280px;
-            --content-bg: rgb(13, 19, 28);
-            --text-color: #e2e8f0;
-            --text-muted: #94a3b8;
+            --primary: #b1caf0;
+            /* Modern blue */
+            --primary-light: #50eed4;
+            /* Lighter blue */
+            --dark-bg: #121212;
+            /* Dark background */
+            --light-bg: #1f1f1f;
+            /* Slightly lighter dark background */
+            --text-color: #eaeaea;
+            /* Light text color */
+            --text-muted: #b3b3b3;
+            /* Muted text color */
+            --border: #444444;
+            /* Light grey border */
+            --sidebar-bg: #1a1a1a;
+            /* Sidebar background */
+            --sidebar-width: 240px;
+            --code-bg: #212121;
+            /* Darker code background */
+            --scrollbar-bg: #2c2c2c;
+            /* Scrollbar background */
+            --scrollbar-thumb: #444444;
+            /* Scrollbar thumb color */
+            --btn-bg: #0d6efd;
+            /* Button background */
+            --btn-hover-bg: #004085;
+            /* Button hover background */
+            --btn-active-bg: #003366;
+            /* Button active state */
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Inter', sans-serif;
             line-height: 1.6;
             color: var(--text-color);
-            background-color: var(--content-bg);
+            background-color: var(--dark-bg);
             margin: 0;
             padding: 0;
             display: grid;
             grid-template-columns: var(--sidebar-width) 1fr;
             min-height: 100vh;
+            overflow: auto;
+            transition: background-color 0.3s ease;
         }
 
-        /* Sidebar Styles */
         .sidebar {
             background-color: var(--sidebar-bg);
             height: 100vh;
             position: sticky;
             top: 0;
             overflow-y: auto;
-            padding: 20px;
             box-sizing: border-box;
+            transition: all 0.3s ease;
+            border-right: 1px solid var(--border);
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background-color: var(--scrollbar-thumb);
+            border-radius: 10px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+            background-color: var(--scrollbar-bg);
         }
 
         .sidebar-header {
             padding-bottom: 20px;
-            border-bottom: 1px solid var(--border);
+            border-bottom: 2px solid var(--border);
             margin-bottom: 20px;
         }
 
@@ -56,9 +88,10 @@
         }
 
         .sidebar-title {
-            font-size: 1.2rem;
+            font-size: 1.6rem;
             margin: 0;
             color: var(--primary);
+            font-weight: 600;
         }
 
         .sidebar-nav {
@@ -68,57 +101,54 @@
         }
 
         .sidebar-nav-item {
-            margin-bottom: 8px;
+            margin-bottom: 12px;
         }
 
         .sidebar-nav-link {
             display: block;
-            padding: 8px 12px;
+            padding: 10px 18px;
             color: var(--text-color);
             text-decoration: none;
-            border-radius: 6px;
-            transition: all 0.2s;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            font-size: 1rem;
         }
 
         .sidebar-nav-link:hover {
-            background-color: rgba(139, 92, 246, 0.1);
-            color: var(--primary-light);
-            text-decoration: none;
-
+            background-color: rgba(13, 110, 253, 0.1);
+            color: var(--primary);
         }
 
         .sidebar-nav-link.active {
-            background-color: rgba(139, 92, 246, 0.2);
+            background-color: rgba(13, 110, 253, 0.2);
             color: var(--primary);
-            font-weight: 500;
         }
 
         .sidebar-subnav {
             list-style: none;
-            padding-left: 20px;
-            margin-top: 4px;
+            padding-left: 16px;
+            margin-top: 8px;
         }
 
         .sidebar-subnav-item {
-            margin-bottom: 4px;
+            margin-bottom: 6px;
         }
 
         .sidebar-subnav-link {
             display: block;
-            padding: 6px 12px;
+            padding: 8px 16px;
             color: var(--text-muted);
             text-decoration: none;
-            border-radius: 6px;
-            font-size: 0.9rem;
-            transition: all 0.2s;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
         }
 
         .sidebar-subnav-link:hover {
-            color: var(--primary-light);
-            background-color: rgba(139, 92, 246, 0.1);
+            color: var(--primary);
+            background-color: rgba(13, 110, 253, 0.1);
         }
 
-        /* Main Content Styles */
         .content {
             padding: 40px;
             max-width: 900px;
@@ -133,38 +163,44 @@
         }
 
         .logo {
-            height: 120px;
+            height: 200px;
             margin-bottom: 20px;
         }
 
         h1 {
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             margin: 0;
             color: var(--primary);
         }
 
         h2 {
-            font-size: 1.8rem;
+            font-size: 2rem;
             margin-top: 60px;
-            border-bottom: 1px solid var(--border);
+            border-bottom: 2px solid var(--border);
             padding-bottom: 10px;
             color: var(--primary);
-            scroll-margin-top: 20px;
         }
 
         h3 {
-            font-size: 1.4rem;
+            font-size: 1.6rem;
             margin-top: 40px;
-            color: var(--primary-light);
+            color: var(--primary);
+        }
+
+        h4 {
+            font-size: 1.25rem;
+            margin-top: 28px;
+            color: var(--text-color);
         }
 
         p,
         li {
             color: var(--text-color);
+            margin-top: 5px;
         }
 
         a {
-            color: var(--primary-light);
+            color: var(--primary);
             text-decoration: none;
         }
 
@@ -174,21 +210,20 @@
 
         code {
             background: var(--code-bg);
-            padding: 2px 6px;
+            padding: 4px 8px;
             border-radius: 4px;
             font-family: 'Fira Code', monospace;
-            font-size: 0.9em;
-            color: #f8fafc;
+            font-size: 0.95em;
+            color: #ecf0f1;
             border: 1px solid var(--border);
         }
 
-        /* Special styling for paragraphs with class="code" */
         p.code {
             background: var(--code-bg);
-            padding: 12px 16px;
-            border-radius: 6px;
+            padding: 16px 24px;
+            border-radius: 8px;
             font-family: 'Fira Code', monospace;
-            font-size: 0.9em;
+            font-size: 1em;
             border: 1px solid var(--border);
             overflow-x: auto;
             margin: 16px 0;
@@ -196,7 +231,7 @@
 
         pre {
             background: var(--code-bg);
-            padding: 16px;
+            padding: 20px;
             border-radius: 8px;
             overflow-x: auto;
             margin: 20px 0;
@@ -212,7 +247,7 @@
         .feature-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
+            gap: 24px;
             margin: 30px 0;
         }
 
@@ -220,13 +255,14 @@
             background: var(--dark);
             border: 1px solid var(--border);
             border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s;
+            padding: 24px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .feature-card:hover {
-            transform: translateY(-2px);
+            transform: translateY(-6px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
         }
 
         .feature-card h3 {
@@ -234,94 +270,28 @@
             color: var(--primary-light);
         }
 
-        .nav-tabs {
-            display: flex;
-            border-bottom: 1px solid var(--border);
-            margin: 30px 0 20px;
-        }
-
-        .nav-tab {
-            padding: 10px 20px;
-            cursor: pointer;
-            border-bottom: 3px solid transparent;
-            color: var(--text-muted);
-        }
-
-        .nav-tab.active {
-            border-bottom-color: var(--primary);
-            color: var(--text-color);
-            font-weight: 600;
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        .route-structure {
-            background: var(--dark);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 20px;
-            margin: 20px 0;
-        }
-
-        .route-structure ul {
-            list-style: none;
-            padding-left: 0;
-        }
-
-        .route-structure li {
-            padding: 5px 0;
-            padding-left: 20px;
-            position: relative;
-            color: var(--text-color);
-        }
-
-        .route-structure li:before {
-            content: "📄";
-            position: absolute;
-            left: 0;
-        }
-
-        .route-structure li.folder:before {
-            content: "📁";
-        }
-
-        .route-structure li.layout:before {
-            content: "🧩";
-        }
-
-        .route-structure li.dynamic:before {
-            content: "🔄";
-        }
-
         footer {
             margin: 60px 0 40px;
             text-align: center;
             color: var(--text-muted);
-            font-size: 0.9em;
+            font-size: 0.95em;
         }
 
-        /* Back to top button */
         .back-to-top {
             position: fixed;
             bottom: 20px;
             right: 20px;
             background: var(--primary);
             color: white;
-            width: 40px;
-            height: 40px;
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             opacity: 0;
-            transition: opacity 0.3s;
+            transition: opacity 0.3s ease;
             z-index: 100;
         }
 
@@ -329,7 +299,27 @@
             opacity: 1;
         }
 
-        /* Responsive adjustments */
+        /* Button Styles */
+        .btn {
+            background-color: var(--btn-bg);
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .btn:hover {
+            background-color: var(--btn-hover-bg);
+            transform: scale(1.05);
+        }
+
+        .btn:active {
+            background-color: var(--btn-active-bg);
+        }
+
         @media (max-width: 768px) {
             body {
                 grid-template-columns: 1fr;
@@ -337,7 +327,6 @@
 
             .sidebar {
                 position: static;
-                height: auto;
                 width: 100%;
                 padding: 15px;
             }
@@ -355,7 +344,6 @@
 
 <body>
     <aside class="sidebar">
-
         <nav>
             <ul class="sidebar-nav">
                 <li class="sidebar-nav-item">
@@ -379,7 +367,19 @@
                             <a href="#core-hooks" class="sidebar-subnav-link">Core Hooks</a>
                         </li>
                         <li class="sidebar-subnav-item">
-                            <a href="#hooks-example" class="sidebar-subnav-link">Example</a>
+                            <a href="#hook-ref" class="sidebar-subnav-link">ref()</a>
+                        </li>
+                        <li class="sidebar-subnav-item">
+                            <a href="#hook-onmounted" class="sidebar-subnav-link">onMounted()</a>
+                        </li>
+                        <li class="sidebar-subnav-item">
+                            <a href="#hook-oneffect" class="sidebar-subnav-link">onEffect()</a>
+                        </li>
+                        <li class="sidebar-subnav-item">
+                            <a href="#hooks-patterns" class="sidebar-subnav-link">Patterns & Tips</a>
+                        </li>
+                        <li class="sidebar-subnav-item">
+                            <a href="#hooks-example" class="sidebar-subnav-link">Full Example</a>
                         </li>
                     </ul>
                 </li>
@@ -416,7 +416,7 @@
     <main class="content">
         <header>
             <picture>
-                <img class="logo" alt="Arfa.js logo" src="https://iili.io/FbTuVl2.md.png" />
+                <img class="logo" alt="Arfa.js logo" src="./assets/logo.png" />
             </picture>
             <h1>Arfa.js Documentation</h1>
             <p>A modern TSX-based framework for building fast, component-driven web applications</p>
@@ -489,14 +489,104 @@ npm run dev</code></pre>
 
             <h3 id="core-hooks">Core Hooks</h3>
             <ul>
-                <li><code>ref(initialValue)</code> → Create reactive state ([getter, setter])</li>
-                <li><code>onMounted(fn)</code> → Run logic when a component is mounted</li>
-                <li><code>onEffect(fn, deps)</code> → Run side effects when dependencies change</li>
+                <li><a href="#hook-ref"><code>ref(initialValue)</code></a> → Create reactive state (returns
+                    <code>[getter, setter]</code>)
+                </li>
+                <li><a href="#hook-onmounted"><code>onMounted(fn)</code></a> → Run logic when a component is first
+                    mounted</li>
+                <li><a href="#hook-oneffect"><code>onEffect(fn, deps)</code></a> → Run side effects when dependencies
+                    change</li>
             </ul>
 
-            <p class="code">Tip: The reactivity system is optimized for performance with minimal overhead.</p>
+            <h3 id="hook-ref">ref()</h3>
+            <p><code>ref</code> creates a reactive value local to the current component instance.</p>
+            <h4>Signature</h4>
+            <pre><code>const [value, setValue] = ref&lt;T&gt;(initial: T)</code></pre>
+            <h4>Reading and writing</h4>
+            <pre><code>import { ref } from "arfa-reactives";
 
-            <h3 id="hooks-example">Example</h3>
+export default function Counter() {
+  const [count, setCount] = ref(0);
+
+  // Read current value
+  const n = count();
+
+  // Set next value (direct)
+  setCount(n + 1);
+
+  // Functional update
+  setCount(prev =&gt; prev + 1);
+
+  return (
+    &lt;button onClick={() =&gt; setCount(c =&gt; c + 1)}&gt;Clicked {count()}&lt;/button&gt;
+  );
+}</code></pre>
+            <p class="code">Tip: Always call the getter (e.g. <code>count()</code>) to read the current value.</p>
+
+            <h3 id="hook-onmounted">onMounted()</h3>
+            <p>Runs once after the component's initial render. Use it for subscriptions, event listeners, or DOM access.
+            </p>
+            <h4>Signature</h4>
+            <pre><code>onMounted(effect: () =&gt; void): void</code></pre>
+            <h4>Example</h4>
+            <pre><code>import { onMounted, ref } from "arfa-reactives";
+
+export default function Clock() {
+  const [now, setNow] = ref(new Date().toLocaleTimeString());
+
+  onMounted(() =&gt; {
+    const id = setInterval(() =&gt; setNow(new Date().toLocaleTimeString()), 1000);
+    // Clean up using onEffect with [] or return cleanup in onEffect; see below.
+    // For simplicity, use onEffect(() =&gt; () =&gt; clearInterval(id), [])
+  });
+
+  return &lt;div&gt;{now()}&lt;/div&gt;;
+}</code></pre>
+
+            <h3 id="hook-oneffect">onEffect()</h3>
+            <p>Runs after render when any dependency changes. Return a function to clean up the previous effect.</p>
+            <h4>Signature</h4>
+            <pre><code>onEffect(effect: () =&gt; (void | (() =&gt; void)), deps: Array&lt;() =&gt; any&gt;): void</code></pre>
+            <h4>Examples</h4>
+            <pre><code>import { onEffect, ref } from "arfa-reactives";
+
+export default function FetchUser({ id }: { id: string }) {
+  const [user, setUser] = ref&lt;null | { name: string }&gt;(null);
+
+  // Re-run when id changes
+  onEffect(() =&gt; {
+    let cancelled = false;
+
+    fetch(`/api/users/${id}`)
+      .then(r =&gt; r.json())
+      .then(data =&gt; { if (!cancelled) setUser(data); });
+
+    // Cleanup runs before next effect and on unmount:
+    return () =&gt; { cancelled = true; };
+  }, [() =&gt; id]);
+
+  return user() ? &lt;h3&gt;Hello {user()!.name}&lt;/h3&gt; : &lt;p&gt;Loading...&lt;/p&gt;;
+}</code></pre>
+            <pre><code>// Multiple dependencies
+onEffect(() =&gt; {
+  console.log("Deps changed:", a(), b());
+}, [a, b]);</code></pre>
+
+            <h3 id="hooks-patterns">Patterns & Tips</h3>
+            <ul>
+                <li><strong>Always pass getters</strong> in the deps array: <code>[count]</code> not
+                    <code>[count()]</code>.
+                </li>
+                <li><strong>Cleanup</strong>: return a function from <code>onEffect</code> to dispose timers, listeners,
+                    etc.</li>
+                <li><strong>Functional updates</strong> avoid stale reads: <code>setCount(c =&gt; c + 1)</code>.</li>
+                <li><strong>Read values inside render/effect</strong> via <code>refGetter()</code> to get the latest.
+                </li>
+                <li><strong>Avoid side-effects during render</strong>; use <code>onMounted</code>/<code>onEffect</code>
+                    instead.</li>
+            </ul>
+
+            <h3 id="hooks-example">Full Example</h3>
             <pre><code>import { onMounted, onEffect, ref } from "arfa-reactives";
 
 export default function CounterExample() {
@@ -504,36 +594,36 @@ export default function CounterExample() {
   const [showMessage, setShowMessage] = ref(true);
 
   // Run once on mount
-  onMounted(() => {
+  onMounted(() =&gt; {
     console.log("Component mounted with initial count:", count());
   });
 
   // Effect runs when count changes
-  onEffect(() => {
+  onEffect(() =&gt; {
     console.log("Count changed:", count());
-    return () => console.log("Cleaning up for count:", count());
+    return () =&gt; console.log("Cleaning up for count:", count());
   }, [count]);
 
   // Effect runs when showMessage changes
-  onEffect(() => {
+  onEffect(() =&gt; {
     console.log("Show message changed:", showMessage());
   }, [showMessage]);
 
   return (
     &lt;div&gt;
       &lt;h2&gt;Current count: {count()}&lt;/h2&gt;
-      &lt;button onClick={() => setCount(c => c + 1)}&gt;Increment&lt;/button&gt;
-      &lt;button onClick={() => setShowMessage(v => !v)}&gt;Toggle Message&lt;/button&gt;
+      &lt;button onClick={() =&gt; setCount(c =&gt; c + 1)}&gt;Increment&lt;/button&gt;
+      &lt;button onClick={() =&gt; setShowMessage(v =&gt; !v)}&gt;Toggle Message&lt;/button&gt;
 
-      {showMessage() && (
+      {showMessage() &amp;&amp; (
         &lt;p&gt;{count() % 2 === 0 ? "Count is even!" : "Count is odd!"}&lt;/p&gt;
       )}
     &lt;/div&gt;
   );
 }</code></pre>
 
-            <p class="code">Remember: Always access reactive values using the getter function (count()) inside effects.
-            </p>
+            <p class="code">Remember: Access reactive values via their getter (e.g., <code>count()</code>) inside
+                effects and render.</p>
         </section>
 
         <section id="routing">
@@ -585,7 +675,7 @@ export default function CounterExample() {
                 </ul>
             </div>
 
-            <p class="code">Dynamic segments are accessed via props.params in your components.</p>
+            <p class="code">Dynamic segments are accessed via <code>props.params</code> in your components.</p>
 
             <h3 id="layout-system">Layout System</h3>
             <p>Create layouts by adding <code>_layout.tsx</code> files:</p>
@@ -628,7 +718,7 @@ export default function CounterExample() {
  * Returns `true` if access is granted, `false` otherwise.
  * Put your real auth logic here (token/session check).
  */
-export const protect: GuardFn = () => {
+export const protect: GuardFn = () =&gt; {
   // TODO: Implement actual authentication logic
   return true;
 };
@@ -641,7 +731,7 @@ export const protectRedirect = "/login" as const;
 
 // If your router passes params to layouts, include them:
 
-const DashboardLayout: FC = ({ children }) => {
+const DashboardLayout: FC = ({ children }) =&gt; {
   return (
     &lt;div class="admin-shell"&gt;
       &lt;aside&gt;Admin menu&lt;/aside&gt;
@@ -660,13 +750,13 @@ export default DashboardLayout;
 export async function protect() {
   const token = localStorage.getItem("token");
   if (!token) return false;
-  
-  const ok = await fetch("/api/validate", { 
-    headers: { Authorization: `Bearer ${token}` } 
+
+  const ok = await fetch("/api/validate", {
+    headers: { Authorization: `Bearer ${token}` }
   })
-    .then(r => r.ok)
-    .catch(() => false);
-    
+    .then(r =&gt; r.ok)
+    .catch(() =&gt; false);
+
   return ok;
 }
 
@@ -684,19 +774,14 @@ export default function DashboardLayout({ children }: any) {
 ├── pages/                # Routes and layouts
 │   ├── _layout.tsx       # Root layout
 │   ├── index.tsx         # Home page
-│   ├── about.tsx
-│   └── admin/
+│   ├── 404.tsx           # Not found page
+│   └── dashboard/
 │       ├── _layout.tsx   # Admin layout
-│       └── dashboard.tsx
+│       └── index.tsx
 ├── assets/               # Static files
 ├── layout/               # optional
-├── core.tsx               # root script file
-├── styles.css               # global styles
-├── src/
-│   ├── components/       # Shared components
-│   ├── styles/           # Global styles
-│   └── utils/            # Utility functions
-├── arfa.config.ts        # Configuration
+├── core.tsx              # core script
+├── styles.css            # global styles
 └── package.json</code></pre>
 
             <p class="code">You can customize this structure in arfa.config.ts if needed.</p>
@@ -716,7 +801,7 @@ export default function DashboardLayout({ children }: any) {
     <div class="back-to-top" id="backToTop">↑</div>
 
     <script>
-        // Smooth scrolling for anchor links
+        // Smooth scroll and active states
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -729,7 +814,6 @@ export default function DashboardLayout({ children }: any) {
                         behavior: 'smooth'
                     });
 
-                    // Update active state in sidebar
                     document.querySelectorAll('.sidebar-nav-link, .sidebar-subnav-link').forEach(link => {
                         link.classList.remove('active');
                     });
@@ -738,15 +822,12 @@ export default function DashboardLayout({ children }: any) {
             });
         });
 
-        // Highlight current section in sidebar
         window.addEventListener('scroll', function () {
             const sections = document.querySelectorAll('section');
             let currentSection = '';
 
             sections.forEach(section => {
                 const sectionTop = section.offsetTop;
-                const sectionHeight = section.clientHeight;
-
                 if (pageYOffset >= (sectionTop - 100)) {
                     currentSection = '#' + section.getAttribute('id');
                 }
@@ -756,8 +837,6 @@ export default function DashboardLayout({ children }: any) {
                 link.classList.remove('active');
                 if (link.getAttribute('href') === currentSection) {
                     link.classList.add('active');
-
-                    // Also activate parent nav item if this is a subnav link
                     if (link.classList.contains('sidebar-subnav-link')) {
                         const parentItem = link.closest('.sidebar-nav-item');
                         if (parentItem) {
@@ -767,7 +846,6 @@ export default function DashboardLayout({ children }: any) {
                 }
             });
 
-            // Show/hide back to top button
             const backToTop = document.getElementById('backToTop');
             if (window.pageYOffset > 300) {
                 backToTop.classList.add('visible');
@@ -776,7 +854,6 @@ export default function DashboardLayout({ children }: any) {
             }
         });
 
-        // Back to top functionality
         document.getElementById('backToTop').addEventListener('click', function () {
             window.scrollTo({
                 top: 0,
@@ -784,19 +861,15 @@ export default function DashboardLayout({ children }: any) {
             });
         });
 
-        // Tab functionality
         function showTab(tabId) {
-            // Hide all tab contents
             document.querySelectorAll('.tab-content').forEach(tab => {
                 tab.classList.remove('active');
             });
 
-            // Deactivate all tabs
             document.querySelectorAll('.nav-tab').forEach(tab => {
                 tab.classList.remove('active');
             });
 
-            // Activate selected tab
             document.getElementById(tabId).classList.add('active');
             event.currentTarget.classList.add('active');
         }
