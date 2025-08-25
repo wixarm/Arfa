@@ -28,7 +28,6 @@ export default function Examples() {
   const increment = () => setCount((c) => (c ?? 0) + 1);
   const toggleMessage = () => setShowMessage((prev) => !prev);
 
-  // 5) UI
   return (
     <div class="p-4 max-w-md mx-auto">
       <h1 class="text-xl font-bold mb-4">Examples</h1>
@@ -74,7 +73,6 @@ export default function Examples() {
           button below to open the dedicated demo page.
         </p>
 
-        {/* Anchor tag styled as a button; your SPA router can intercept href="/context" */}
         <a
           href="/context"
           class="inline-flex items-center px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
@@ -84,7 +82,6 @@ export default function Examples() {
           Open Context Demo
         </a>
 
-        {/* Short inline hint under the button */}
         <p class="mt-2 text-xs text-slate-500">
           Tip: The Context demo shows creating a <code>createContext</code>,
           providing a value with <code>withContext</code>, and reading it via{" "}
@@ -95,10 +92,3 @@ export default function Examples() {
     </div>
   );
 }
-
-/**
- * Notes:
- * - The <a href="/context"> link is styled like a button. If you're using an SPA router,
- *   it can intercept this navigation; otherwise, it will do a normal page load.
- * - The "Context" badge is just a small visual tag next to the button.
- */

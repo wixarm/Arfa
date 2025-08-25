@@ -41,7 +41,7 @@ export default function CounterWithContext() {
   //    NOTE: pass the seeded value so first client render matches storage.
   const [countRef, setCount] = ref<number>(readInitialCount(0), {
     persist: {
-      key: "examples:count", // -> "arfa:examples:count"
+      key: "examples:count",
       version: 1,
       keyPrefix: "arfa:",
       // sync: true (default)
