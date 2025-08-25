@@ -1,66 +1,34 @@
 import { onMounted, onEffect, ref } from "arfa-reactives";
 
 /**
- * Examples Component - Demonstrates reactive state and lifecycle hooks
- *
- * Features shown:
- * - Creating and using reactive state with ref()
- * - Component lifecycle with onMounted()
- * - Side effects with dependencies using onEffect()
- * - Conditional rendering based on state
- * - Event handlers with state updates
+ * Examples Component - Reactive state + lifecycle, with a link to the Context demo
  */
 export default function Examples() {
-  // 1. Creating reactive state
-  // ref() returns a getter function and setter function
-  // Initial value is 1
+  // 1) Reactive state
   const [count, setCount] = ref(1);
   const [showMessage, setShowMessage] = ref(true);
 
-  // 2. Component Lifecycle Hook
-  // Runs once when component is added to the DOM
+  // 2) Lifecycle
   onMounted(() => {
     console.log("Component mounted!");
-    // You can access initial state values here
     console.log("Initial count:", count());
-
-    // Example: Could fetch data here
-    // fetchData().then(data => setData(data));
   });
 
-  // 3. Effect Hook with Dependency
-  // Runs after render when dependencies change
+  // 3) Effects
   onEffect(() => {
     console.log("Count changed to:", count());
+    return () => console.log("Cleaning up effect for count:", count());
+  }, [count]);
 
-    // Example side effects:
-    // - Updating document title
-    // - Making API calls
-    // - Working with browser APIs
-
-    // Cleanup function (optional)
-    return () => {
-      console.log("Cleaning up effect for count:", count());
-    };
-  }, [count]); // Only re-run when count changes
-
-  // Another effect with different dependency
   onEffect(() => {
     console.log("Show message state changed:", showMessage());
   }, [showMessage]);
 
-  // 4. Event Handlers
-  const increment = () => {
-    // Update state using functional update to ensure we have latest value
-    setCount((c) => (c ?? 0) + 1);
-  };
+  // 4) Handlers
+  const increment = () => setCount((c) => (c ?? 0) + 1);
+  const toggleMessage = () => setShowMessage((prev) => !prev);
 
-  const toggleMessage = () => {
-    setShowMessage((prev) => !prev);
-  };
-
-  // 5. Conditional Rendering
-  // The component re-renders when state changes
+  // 5) UI
   return (
     <div class="p-4 max-w-md mx-auto">
       <h1 class="text-xl font-bold mb-4">Examples</h1>
@@ -68,7 +36,7 @@ export default function Examples() {
       {/* Display current count */}
       <div class="mb-2">Current count: {count()}</div>
 
-      {/* Button to update state */}
+      {/* Buttons */}
       <button
         class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 mr-2"
         onClick={increment}
@@ -76,7 +44,6 @@ export default function Examples() {
         Increment (+1)
       </button>
 
-      {/* Another state-controlled button */}
       <button
         class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
         onClick={toggleMessage}
@@ -84,7 +51,7 @@ export default function Examples() {
         Toggle Message
       </button>
 
-      {/* Conditional rendering based on state */}
+      {/* Conditional rendering */}
       {showMessage() && (
         <div class="mt-4 p-2 bg-green-100 border border-green-400 text-green-700">
           {count() % 2 === 0 ? (
@@ -99,36 +66,39 @@ export default function Examples() {
       <div class="mt-4 p-2 bg-yellow-100 border border-yellow-400 text-yellow-700">
         Check browser console to see effect logs as you interact!
       </div>
+
+      {/* ---- NEW: Navigate to /context (Context demo) ---- */}
+      <div class="mt-6 p-3 border rounded bg-slate-50">
+        <p class="text-sm text-slate-700 mb-2">
+          Want to see how to use <strong>Context</strong> in Arfa JS? Click the
+          button below to open the dedicated demo page.
+        </p>
+
+        {/* Anchor tag styled as a button; your SPA router can intercept href="/context" */}
+        <a
+          href="/context"
+          class="inline-flex items-center px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
+          aria-label="Open Context example"
+          title="Open Context example"
+        >
+          Open Context Demo
+        </a>
+
+        {/* Short inline hint under the button */}
+        <p class="mt-2 text-xs text-slate-500">
+          Tip: The Context demo shows creating a <code>createContext</code>,
+          providing a value with <code>withContext</code>, and reading it via{" "}
+          <code>useContext</code>. It also includes a persisted store example so
+          values survive refresh.
+        </p>
+      </div>
     </div>
   );
 }
 
 /**
- * Key Concepts Explained:
- *
- * 1. REACTIVE STATE (ref):
- * - Use ref() to create state that triggers re-renders when changed
- * - Returns [getter, setter] pair
- * - Always access value using getter: count()
- * - Update using setter: setCount(newValue) or setCount(prev => prev + 1)
- *
- * 2. LIFECYCLE HOOKS (onMounted):
- * - Runs once when component is added to DOM
- * - Good for initialization, API calls, event listeners
- *
- * 3. EFFECT HOOKS (onEffect):
- * - Runs after render when dependencies change
- * - Add dependencies array to control when it runs
- * - Return cleanup function for subscriptions, etc.
- *
- * 4. BEST PRACTICES:
- * - Keep state updates pure
- * - Use functional updates when new state depends on previous
- * - Organize related state and effects together
- * - Clean up resources in effect cleanup functions
- *
- * 5. CONDITIONAL RENDERING:
- * - Use JavaScript expressions in JSX
- * - && operator for simple conditions
- * - Ternary for if/else
+ * Notes:
+ * - The <a href="/context"> link is styled like a button. If you're using an SPA router,
+ *   it can intercept this navigation; otherwise, it will do a normal page load.
+ * - The "Context" badge is just a small visual tag next to the button.
  */
