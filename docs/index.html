@@ -214,7 +214,7 @@
             border-radius: 4px;
             font-family: 'Fira Code', monospace;
             font-size: 0.95em;
-            color: #ecf0f1;
+            color: #e3f586;
             border: 1px solid var(--border);
         }
 
@@ -380,6 +380,26 @@
                         </li>
                         <li class="sidebar-subnav-item">
                             <a href="#hooks-example" class="sidebar-subnav-link">Full Example</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="sidebar-nav-item">
+                    <a href="#context" class="sidebar-nav-link">🧠 Context API</a>
+                    <ul class="sidebar-subnav">
+                        <li class="sidebar-subnav-item">
+                            <a href="#context-overview" class="sidebar-subnav-link">Overview</a>
+                        </li>
+                        <li class="sidebar-subnav-item">
+                            <a href="#context-create" class="sidebar-subnav-link">createContext()</a>
+                        </li>
+                        <li class="sidebar-subnav-item">
+                            <a href="#context-provide" class="sidebar-subnav-link">withContext()</a>
+                        </li>
+                        <li class="sidebar-subnav-item">
+                            <a href="#context-consume" class="sidebar-subnav-link">useContext()</a>
+                        </li>
+                        <li class="sidebar-subnav-item">
+                            <a href="#context-example" class="sidebar-subnav-link">Persisted Counter</a>
                         </li>
                     </ul>
                 </li>
@@ -625,6 +645,126 @@ export default function CounterExample() {
             <p class="code">Remember: Access reactive values via their getter (e.g., <code>count()</code>) inside
                 effects and render.</p>
         </section>
+
+        <section id="context">
+            <h2>🧠 Context API</h2>
+            <p>The Context API lets you pass values through the component tree without prop drilling. It integrates with
+                Arfa’s reactive <code>ref</code> so consumers re-render automatically when the provided value changes.
+            </p>
+
+            <h3 id="context-overview">Overview</h3>
+            <ul>
+                <li><code>createContext&lt;T&gt;(defaultValue: T)</code> — create a context object.</li>
+                <li><code>withContext(ctx, valueOrGetter, render)</code> — provide a value (or a <em>ref getter</em>)
+                    for descendants.</li>
+                <li><code>useContext(ctx)</code> — read the nearest provided value (auto-subscribes if you provided a
+                    getter).</li>
+            </ul>
+
+            <h3 id="context-create">createContext()</h3>
+            <pre><code>import { createContext } from "arfa-reactives";
+          
+          const CountCtx = createContext&lt;number&gt;(0);</code></pre>
+
+            <h3 id="context-provide">withContext()</h3>
+            <p>Provide a plain value <em>or</em> a <strong>ref getter</strong>. Passing the getter makes consumers
+                reactive.</p>
+            <pre><code>import { withContext, ref } from "arfa-reactives";
+          
+          const [countRef, setCount] = ref(0);
+          
+          return withContext(CountCtx, countRef, () =&gt; {
+            // children here can call useContext(CountCtx)
+            return &lt;Child /&gt;;
+          });</code></pre>
+
+            <h3 id="context-consume">useContext()</h3>
+            <pre><code>import { useContext } from "arfa-reactives";
+          
+          function Child() {
+            const count = useContext(CountCtx); // number
+            return &lt;div&gt;Count: {count}&lt;/div&gt;;
+          }</code></pre>
+
+            <h3 id="context-example">Persisted Counter (Full Example)</h3>
+            <p>This example persists the counter in <code>localStorage</code> and provides it via Context so any child
+                can read it.</p>
+            <pre><code>import {
+            ref,
+            createContext,
+            useContext,
+            withContext,
+            onMounted,
+            onEffect
+          } from "arfa-reactives";
+          
+          // Full storage key = keyPrefix + key
+          const COUNT_KEY = "arfa:docs:count";
+          const CountCtx = createContext&lt;number&gt;(0);
+          
+          // Optional: seed from localStorage for first paint (SSR-safe)
+          function readInitialCount(defaultValue = 0): number {
+            try {
+              if (typeof window === "undefined") return defaultValue;
+              const raw = window.localStorage.getItem(COUNT_KEY);
+              if (!raw) return defaultValue;
+              const env = JSON.parse(raw) as { v?: number; d: unknown };
+              const n = Number((env as any).d);
+              return Number.isFinite(n) ? n : defaultValue;
+            } catch {
+              return defaultValue;
+            }
+          }
+          
+          export default function ContextCounterPage() {
+            // Persisted store
+            const [countRef, setCount] = ref&lt;number&gt;(readInitialCount(0), {
+              persist: {
+                key: "docs:count",   // stored under "arfa:docs:count"
+                version: 1,
+                keyPrefix: "arfa:",
+                // sync: true // default: cross-tab updates
+              },
+            });
+          
+            onMounted(() =&gt; {
+              console.log("Mounted. Hydrated count =", countRef());
+            });
+          
+            onEffect(() =&gt; {
+              console.log("Count changed -&gt;", countRef());
+            }, [countRef]);
+          
+            const inc = () =&gt; setCount(c =&gt; (c ?? 0) + 1);
+            const dec = () =&gt; setCount(c =&gt; (c ?? 0) - 1);
+            const reset = () =&gt; setCount(0);
+          
+            // Provide the getter so consumers auto-update
+            return withContext(CountCtx, countRef, () =&gt; {
+              const count = useContext(CountCtx);
+              return (
+                &lt;div class="p-3 border rounded"&gt;
+                  &lt;h3&gt;Counter via Context (Persisted)&lt;/h3&gt;
+                  &lt;p&gt;Current: {count}&lt;/p&gt;
+                  &lt;div class="flex gap-2"&gt;
+                    &lt;button class="btn" onClick={inc}&gt;+1&lt;/button&gt;
+                    &lt;button class="btn" onClick={dec}&gt;-1&lt;/button&gt;
+                    &lt;button class="btn" onClick={reset}&gt;Reset&lt;/button&gt;
+                  &lt;/div&gt;
+                  &lt;p class="code" style="margin-top:12px"&gt;
+                    Persisted under localStorage key: &lt;code&gt;arfa:docs:count&lt;/code&gt;
+                  &lt;/p&gt;
+                &lt;/div&gt;
+              );
+            });
+          }</code></pre>
+
+            <p class="code"><strong>Tips:</strong> Pass the <em>getter</em> (e.g. <code>countRef</code>) to
+                <code>withContext</code> so consumers re-render on updates. In dependency arrays use getters (e.g.
+                <code>[countRef]</code>), not values (no <code>countRef()</code>).
+            </p>
+        </section>
+
 
         <section id="routing">
             <h2>📁 File-based Routing</h2>
