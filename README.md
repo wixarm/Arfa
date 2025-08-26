@@ -205,3 +205,124 @@ export default function DashboardLayout({ children }: any) {
 }
 
 ```
+
+## 🧠 Context API
+
+Arfa.js provides a Context API that allows you to share state across components without the need to pass props manually. It is reactive, and consumers re-render automatically when the provided value changes.
+
+### createContext()
+
+The `createContext` function is used to create a new context with a default value.
+
+```bash
+import { createContext } from "arfa-reactives";
+
+// Create context with a default value
+const CountCtx = createContext<number>(0);
+```
+
+## withContext()
+
+The withContext function allows you to provide a value to the context. This value can be a plain value or a reactive reference getter (ref).
+
+```bash
+import { createContext } from "arfa-reactives";
+
+// Create context with a default value
+const CountCtx = createContext<number>(0);
+import { withContext, ref } from "arfa-reactives";
+
+const [countRef, setCount] = ref(0);
+
+return withContext(CountCtx, countRef, () => {
+  // Children here can call useContext(CountCtx)
+  return <Child />;
+});
+```
+
+## useContext()
+
+The **useContext** hook allows you to consume the nearest context value, whether it's a static value or a reactive reference.
+
+```bash
+
+import { useContext } from "arfa-reactives";
+
+function Child() {
+  const count = useContext(CountCtx); // number
+  return <div>Count: {count}</div>;
+}
+
+```
+
+## Persisted Counter Example
+
+This example demonstrates how to use context with persistence (e.g., in localStorage). The counter is persisted across page refreshes.
+
+```bash
+
+import { ref, createContext, useContext, withContext, onMounted, onEffect } from "arfa-reactives";
+
+// Full storage key = keyPrefix + key
+const COUNT_KEY = "arfa:docs:count";
+const CountCtx = createContext<number>(0);
+
+// Optional: seed from localStorage for first paint (SSR-safe)
+function readInitialCount(defaultValue = 0): number {
+  try {
+    if (typeof window === "undefined") return defaultValue;
+    const raw = window.localStorage.getItem(COUNT_KEY);
+    if (!raw) return defaultValue;
+    const env = JSON.parse(raw) as { v?: number; d: unknown };
+    const n = Number((env as any).d);
+    return Number.isFinite(n) ? n : defaultValue;
+  } catch {
+    return defaultValue;
+  }
+}
+
+export default function ContextCounterPage() {
+  // Persisted store
+  const [countRef, setCount] = ref<number>(readInitialCount(0), {
+    persist: {
+      key: "docs:count",   // stored under "arfa:docs:count"
+      version: 1,
+      keyPrefix: "arfa:",
+      // sync: true // default: cross-tab updates
+    },
+  });
+
+  onMounted(() => {
+    console.log("Mounted. Hydrated count =", countRef());
+  });
+
+  onEffect(() => {
+    console.log("Count changed ->", countRef());
+  }, [countRef]);
+
+  const inc = () => setCount(c => (c ?? 0) + 1);
+  const dec = () => setCount(c => (c ?? 0) - 1);
+  const reset = () => setCount(0);
+
+  // Provide the getter so consumers auto-update
+  return withContext(CountCtx, countRef, () => {
+    const count = useContext(CountCtx);
+    return (
+      <div class="p-3 border rounded">
+        <h3>Counter via Context (Persisted)</h3>
+        <p>Current: {count}</p>
+        <div class="flex gap-2">
+          <button class="btn" onClick={inc}>+1</button>
+          <button class="btn" onClick={dec}>-1</button>
+          <button class="btn" onClick={reset}>Reset</button>
+        </div>
+        <p class="code" style="margin-top:12px">
+          Persisted under localStorage key: <code>arfa:docs:count</code>
+        </p>
+      </div>
+    );
+  });
+}
+
+
+```
