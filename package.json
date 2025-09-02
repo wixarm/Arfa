@@ -3,7 +3,7 @@
   "homepage": "https://wixarm.github.io/Arfa/",
   "author": "Arman tarhani",
   "description": "A modern TSX-based framework for building fast, component-driven web applications.",
-  "version": "2.0.39",
+  "version": "2.0.40",
   "bin": {
     "create-arfa": "./index.js"
   },
